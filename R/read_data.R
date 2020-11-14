@@ -2,14 +2,14 @@
 #
 # Note:
 # - Can still read old (2019) datasets to compare with submitted version
-#   but will expect SICOPOLIS old names - re-check
+#   but will expect SICOPOLIS old names in model selection robustness tests
 # - Cannot read intermediate datasets - pre-6th Nov for SLE_SIMULATIONS.csv
-#
+#   due to SICOPOLIS name changes
 #_____________________________________________________________________
 # Read in FORCING
 #_____________________________________________________________________
 
-read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, mean_temp, old_data) {
+read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, mean_temp, dataset) {
 
   #' Read forcing data from CSV
   #' @param scenario_list Scenarios to read
@@ -17,9 +17,7 @@ read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, m
   #' @param N_temp Number of GSAT samples wanted
   #' @param climate_prior_kde Whether to smooth prior before sampling
   #' @param mean_temp Whether to use mean of GSAT prior instead of sampling
-  #' @param old_data Whether to read old forcing CSV file (2019) for backwards comparisons
-
-  #' Read in forcing CSV
+  #' @param dataset Which forcing CSV file to read: 2019, main, IPCC
   #' @param temp_prior Which ensemble
 
   cat("\nread_forcing --------------------------------------\n", file = e$log_file)
@@ -27,8 +25,9 @@ read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, m
   # read data --------------------------------------
 
   # File to read from package inst/extdata/ folder
-  if (old_data) forcing.filename <- "20191217_CLIMATE_FORCING.csv"
-  else forcing.filename <- "20201105_CLIMATE_FORCING.csv"
+  if (dataset == "2019") forcing.filename <- "20191217_CLIMATE_FORCING.csv"
+  if (dataset == "main") forcing.filename <- "20201105_CLIMATE_FORCING.csv"
+  if (dataset == "IPCC") forcing.filename <- "20201112_CLIMATE_FORCING_IPCC.csv"
 
   # Number of initial columns before numeric data columns
   ncol_param <- 3
@@ -43,7 +42,7 @@ read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, m
 
   # Add y to start of colname for tidyverse functions
   # Only needed for pre- 4th Oct 2020 datasets only
-  if (old_data) colnames(fd)[ (ncol_param + 1):dim(fd)[2] ] <- paste0( "y", colnames(fd)[ (ncol_param + 1):dim(fd)[2] ] )
+  if (dataset == "2019") colnames(fd)[ (ncol_param + 1):dim(fd)[2] ] <- paste0( "y", colnames(fd)[ (ncol_param + 1):dim(fd)[2] ] )
 
   cat("Read in", dim(fd)[1], "climate simulations\n", file = e$log_file)
 
@@ -112,7 +111,8 @@ read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, m
 
   # Select relevant scenarios too
   cat("Selecting scenarios (RCPs and SSPs)\n", file = e$log_file)
-  fd <- fd[ fd$scenario %in% c(scenario_list[["CMIP5"]], scenario_list[[temp_prior]]), ]
+  fd <- fd[ fd$scenario %in% c(scenario_list[["CMIP5"]], scenario_list[["CMIP6"]],
+                               scenario_list[[temp_prior]]), ]
 
   cat("Remaining:", dim(fd)[1], "climate simulations\n\n", file = e$log_file)
 
@@ -179,8 +179,8 @@ read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, m
   # Construct prior here
   # i.e. select ensemble and scenario; resampling if needed
 
-  # Time series to 2099: use FaIR N=500 as is
-  # 2100: use N=5000 resampling of FaIR or CMIP6 kde [check] -> plot these
+  # Time series to 2099: use FaIR as is
+  # 2100: use resampling of FaIR or CMIP6 kde [check] -> plot these
 
   # FIGURE: 1b 2100 TEMPERATURE PRIOR
 
@@ -206,12 +206,11 @@ read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, m
 
     cat("Found", dim(forcing_sc)[1], "temp values for", scen, "\n", file = e$log_file)
 
-    # Don't request fewer samples than exist
-    stopifnot(N_temp >= dim(forcing_sc)[1])
-
     # If requested number exactly equals existing
-    # (N_temp set to 500 when predicting multiple years i.e. timeseries)
+    # (N_temp set to N_FAIR when predicting timeseries)
     if (N_temp == dim(forcing_sc)[1]) {
+
+      if (length(e$years_pred) == 1) forcing_sc <- unlist(forcing_sc, use.names = FALSE)
 
       # Not resampling
       e$forcing_prior[[scen]] <- forcing_sc
@@ -261,64 +260,6 @@ read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, m
       cat( "Returning temp prior of", N_temp, "values for", e$years_pred, "\n", file = e$log_file )
 
     }
-
-    # Plot climate priors if one year
-    if (length(e$years_pred) == 1) {
-
-      yy_num <- substr(e$years_pred, 2, nchar(e$years_pred))
-
-      breaks <- seq(-1, 8, by = 0.25)
-      xlabel <- bquote("Global mean temperature change 2015-"*.(yy_num)~"("*degree*"C)")
-
-      # Get colour tag
-      sc <- substr(scen, nchar(scen)-1, nchar(scen))
-
-      # individual priors --------------------------------------
-
-      suff <- NA
-      if (temp_prior == "FAIR") {
-        if (scen == "SSP126") suff <- "a"
-        if (scen == "SSP245") suff <- "x"
-        if (scen == "SSP370") suff <- "d"
-        if (scen == "SSP585") suff <- "g"
-      }
-      if (temp_prior == "CMIP6") {
-        if (climate_prior_kde) {
-          if (scen == "SSP126") suff <- "c"
-          if (scen == "SSP245") suff <- "x"
-          if (scen == "SSP370") suff <- "f"
-          if (scen == "SSP585") suff <- "i"
-        } else {
-          if (scen == "SSP126") suff <- "b"
-          if (scen == "SSP245") suff <- "x"
-          if (scen == "SSP370") suff <- "e"
-          if (scen == "SSP585") suff <- "h"
-        }
-      }
-
-      # Plot original, and kde if used
-      # if (!is.na(suff)) pdf( file = paste0( e$outdir, "/ED_Fig1_", suff, ".pdf" ), width = 9, height = 8)
-      hist(forcing_sc, freq = FALSE,  breaks = breaks,
-           main = paste0(temp_prior, " simulations (N = ", length(forcing_sc), "): ", scen),
-           col = e$scen_col_trans[[sc]], border = e$scen_col[[sc]], xlab = xlabel)
-      if (climate_prior_kde) lines(forcing_dens, col = e$scen_col[[sc]])
-      #  if (!is.na(suff)) dev.off()
-
-
-      suff <- NA
-      if (temp_prior == "FAIR") suff <- scen
-
-      # Plot final # improve: add scen to key not title
-      #if (!is.na(suff)) pdf( file = paste0( e$outdir, "/Fig1b_", suff, ".pdf" ), width = 9, height = 8)
-
-      hist(e$forcing_prior[[scen]], freq = TRUE, breaks = breaks, xlab = xlabel,
-           main = paste0(temp_prior, " prior (N = ", length(e$forcing_prior[[scen]]), "): ", scen),
-           col = e$scen_col_trans[[sc]], border = e$scen_col[[sc]],
-           cex.axis = 1.5, cex.lab = 1.5 )
-      #if (!is.na(suff)) dev.off()
-
-    } # if one timeslice
-
 
   } # scenarios
 

@@ -20,6 +20,7 @@ print('____________________________________________________')
 main <- function(expt = "default",
                  ice_sources = c("GrIS", "AIS", "Glaciers"),
                  years = 2100,
+                 dataset = "main",
                  N_temp = 1000L,
                  temp_prior = "FAIR",
                  mean_temp = FALSE,
@@ -41,7 +42,8 @@ main <- function(expt = "default",
   #' @param expt Analysis to run: e.g. "SA", "timeseries"
   #' @param ice_sources Ice sources: GrIS, AIS, Glaciers
   #' @param years Year(s) to predict: default is 2100, time series is 2015:2100
-  #' @param N_temp Number of climate values in prior: 501 code testing, 1000L default for tests, 5000L projections, over-ridden (500) for timeseries
+  #' @param dataset Forcing dataset: 2019, main, IPCC
+  #' @param N_temp Number of climate values in prior: 501 code testing, 1000L default for tests, 5000L projections, over-ridden for timeseries
   #' @param temp_prior Climate ensemble for prior: FAIR, CMIP6
   #' @param mean_temp Use mean temperature value or ice sheets: T/F
   #' @param gamma0_prior Gamma0 prior distribution for AIS: "joint", "MeanAnt", "PIGL", "unif", "unif_high"
@@ -83,8 +85,9 @@ main <- function(expt = "default",
       impute_high == TRUE ) e$ice_source_list <- "AIS"
 
   # Number of T/melt samples in 2100 projections and SA
-  # 501 for testing, 1000 for SA, 5000 for main projections
-  stopifnot(N_temp %in% c(501L, 1000L, 5000L))
+  # If equal to number of FAIR projections, uses each one, otherwise samples
+  # 501 for testing, 1000 for SA tests, 2000 for FAIR 2LM IPCC, 5000 for FAIR main projections
+  stopifnot(N_temp %in% c(501L, 1000L, 2000L, 5000L))
 
   # Collapse prior
   stopifnot(collapse_prior %in% c("both", "on", "off"))
@@ -212,8 +215,14 @@ main <- function(expt = "default",
   if (collapse_prior == "off" ) collapse_prior <- 0
   stopifnot(collapse_prior %in% c(0,0.5,1))
 
-  # Run on 2019 CSVs to check impact of corrected and extended dataset
+  # Run on 2019 SLE CSV to check impact of corrected and extended dataset
   old_data <- FALSE # xxx improve: remove old_data capacity once code rewrite finished
+
+  # FORCING csv: old, main or new 2LM forcing
+  stopifnot(dataset %in% c("2019", "main", "IPCC"))
+
+  # This is used for timeseries N_temp so that each is a trajectory
+  N_FAIR <- ifelse(dataset == "IPCC", 2000L, 500L)
 
   # End of anything changed by hand
   #__________________________________________________________________________________________________
@@ -259,8 +268,8 @@ main <- function(expt = "default",
   # CLIMATE PRIOR
   if (expt == "CMIP6") temp_prior <- "CMIP6"
 
-  # N_temp = 500 for FAIR timeseries, otherwise use N_temp
-  if (temp_prior == "FAIR" && expt == "timeseries") N_temp <- 500L
+  # N_temp = N_FAIR for timeseries projections, otherwise use N_temp
+  if (temp_prior == "FAIR" && expt == "timeseries") N_temp <- N_FAIR
 
   # Number of melt samples per temperature
   if (expt == "SA") N_melt_Tdep <- N_temp # T-dep plots
@@ -278,18 +287,26 @@ main <- function(expt = "default",
   stopifnot(mean_melt == FALSE || mean_temp == FALSE) # fixed temp and fixed melt doesn't work
 
   # SCENARIOS
-  # Don't change name format, because these match CSV entries
+  # Names match CSV entries
   scenario_list <- list()
-  if (old_data) scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSP370", "SSP585")
-  else scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSPNDC", "SSP370", "SSP585")
+  if (dataset == "2019") scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSP370", "SSP585")
+  if (dataset == "main") scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSPNDC", "SSP370", "SSP585")
+  #if (dataset == "IPCC") scenario_list[["FAIR"]] <- c("SSP126", "SSP585")
+  if (dataset == "IPCC") scenario_list[["FAIR"]] <- c("SSP119", "SSP245", "SSP370")
+
   scenario_list[["CMIP5"]] <- c("RCP26", "RCP85", "RCP45", "RCP60")
   scenario_list[["CMIP6"]] <- c("SSP126", "SSP245", "SSP370", "SSP585") # not enough models for 119
 
   # SSP/RCP names to expect for each ensemble
   # Needs to be same order as scenario_list above
+  # XXX Could have done this as a lookup table
   e$scen_name_list <- list()
-  if (old_data) e$scen_name_list[["FAIR"]] <- c("SSP1-19", "SSP1-26", "SSP2-45", "SSP3-70", "SSP5-85")
-  else e$scen_name_list[["FAIR"]] <- c("SSP1-19", "SSP1-26", "SSP2-45", "NDCs", "SSP3-70", "SSP5-85")
+
+  if (dataset == "2019") e$scen_name_list[["FAIR"]] <- c("SSP1-19", "SSP1-26", "SSP2-45", "SSP3-70", "SSP5-85")
+  if (dataset == "main") e$scen_name_list[["FAIR"]] <- c("SSP1-19", "SSP1-26", "SSP2-45", "NDCs", "SSP3-70", "SSP5-85")
+  #if (dataset == "IPCC") e$scen_name_list[["FAIR"]] <- c("SSP1-26", "SSP5-85")
+  if (dataset == "IPCC") e$scen_name_list[["FAIR"]] <- c("SSP1-19", "SSP2-45", "SSP3-70")
+
   e$scen_name_list[["CMIP5"]] <- c("RCP2.6", "RCP8.5", "RCP4.5", "RCP6.0")
   e$scen_name_list[["CMIP6"]] <- c("SSP1-26", "SSP2-45", "SSP3-70", "SSP5-85")
 
@@ -456,7 +473,7 @@ main <- function(expt = "default",
 
   # READ CLIMATE PRIOR
   stopifnot(temp_prior %in% c( "FAIR", "CMIP6"))
-  read_forcing(scenario_list, temp_prior, N_temp, climate_prior_kde, mean_temp, old_data)
+  read_forcing(scenario_list, temp_prior, N_temp, climate_prior_kde, mean_temp, dataset)
 
   # READ SEA LEVEL PROJECTIONS
   # Read file and return SL dataset
@@ -725,6 +742,9 @@ main <- function(expt = "default",
     # Get temperature anomaly for this year - by row for each experiment (GCM/scenario pair)
     # xxx improve: better row-wise code?
     for ( ss in 1:dim(sim_yy)[1] ) {
+      print(ss)
+      print(sim_yy[ss, "temp"] )
+      print( select(filter(e$forcing_calib, GCM == sim_yy[ss, "GCM"] & scenario == sim_yy[ss, "scenario"]), yy ))
       sim_yy[ss, "temp"] <- e$forcing_calib %>%
         filter(GCM == sim_yy[ss, "GCM"] & scenario == sim_yy[ss, "scenario"]) %>%
         select(yy) %>%
