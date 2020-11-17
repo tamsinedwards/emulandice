@@ -51,7 +51,7 @@ main <- function(expt = "default",
   #' @param collapse_prior Ice shelf collapse prior: both, on, off
   #' @param risk_averse Risk-averse settings: T/F
   #' @param min_res_is Set minimum spatial resolution for ice sheets in km (GIS, AIS): default c(8, 32)
-  #' @param select_ism Select subset of ice sheet models by defined list: balanced, single, single_low, high_sensitivity
+  #' @param select_ism Select subset of ice sheet models by defined list: balanced, single, single_low, high_sensitivity, larmip
   #' @param select_gcm Select subset of gcms by defined list: high_five, high_two
   #' @param history_match Select subset of ice sheet models using IMBIE observations: T/F
   #' @param exclude_open Exclude open parameterisation Antarctic ice sheet models: T/F
@@ -78,11 +78,11 @@ main <- function(expt = "default",
 
   # Antarctic only tests
   if ( collapse_prior != "both" ||
-      select_ism == "single_low" || select_ism == "high_sensitivity" ||
-      select_gcm != "all" ||
-      history_match == TRUE ||
-      exclude_open == TRUE ||
-      impute_high == TRUE ) e$ice_source_list <- "AIS"
+       select_ism == "single_low" || select_ism == "high_sensitivity" || select_ism == "larmip" ||
+       select_gcm != "all" ||
+       history_match == TRUE ||
+       exclude_open == TRUE ||
+       impute_high == TRUE ) e$ice_source_list <- "AIS"
 
   # Number of T/melt samples in 2100 projections and SA
   # If equal to number of FAIR projections, uses each one, otherwise samples
@@ -146,7 +146,7 @@ main <- function(expt = "default",
   if (select_gcm == "high_two") e$cond_gcm[["AIS"]] <- c("NorESM1-M", "CCSM4")
 
   # Select ISM
-  stopifnot(select_ism %in% c("all", "balanced", "single", "single_low", "high_sensitivity"))
+  stopifnot(select_ism %in% c("all", "balanced", "single", "single_low", "high_sensitivity", "larmip"))
   e$select_ism <- ifelse(select_ism == "all", FALSE, TRUE)
   e$cond_ism <- list()
 
@@ -177,6 +177,14 @@ main <- function(expt = "default",
   # More balanced design
   # 4 AIS models with most runs
   if (select_ism == "balanced") e$cond_ism[["AIS"]] <- c("ILTS_PIK__SICOPOLIS", "JPL1__ISSM", "LSCE__GRISLI", "NCAR__CISM")
+
+  # LARMIP-2 comparison: 12 groups/models common to both (including all variants of model)
+  if (select_ism == "larmip") e$cond_ism[["AIS"]] <- c( "AWI__PISM1", "DOE__MALI",
+                                                        "ILTS_PIK__SICOPOLIS", "IMAU__IMAUICE1", "IMAU__IMAUICE2",
+                                                        "JPL1__ISSM", "LSCE__GRISLI",
+                                                        "NCAR__CISM", "PIK__PISM1", "PIK__PISM2",
+                                                        "UCIJPL__ISSM", "ULB__fETISh_16km", "ULB__fETISh_32km",
+                                                        "VUB__AISMPALEO", "VUW__PISM")
 
   # Single models - high and low sensitivity, then 4 highest sensitivity
   if (select_ism == "single") e$cond_ism[["AIS"]] <- "ILTS_PIK__SICOPOLIS"
@@ -291,8 +299,10 @@ main <- function(expt = "default",
   scenario_list <- list()
   if (dataset == "2019") scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSP370", "SSP585")
   if (dataset == "main") scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSPNDC", "SSP370", "SSP585")
-  #if (dataset == "IPCC") scenario_list[["FAIR"]] <- c("SSP126", "SSP585")
-  if (dataset == "IPCC") scenario_list[["FAIR"]] <- c("SSP119", "SSP245", "SSP370")
+  if (dataset == "IPCC") {
+    if (expt == "timeseries") scenario_list[["FAIR"]] <- c("SSP126", "SSP585") # can't cope with all 5
+    else scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSP370", "SSP585")
+  }
 
   scenario_list[["CMIP5"]] <- c("RCP26", "RCP85", "RCP45", "RCP60")
   scenario_list[["CMIP6"]] <- c("SSP126", "SSP245", "SSP370", "SSP585") # not enough models for 119
