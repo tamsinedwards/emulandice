@@ -23,6 +23,7 @@ main <- function(expt = "default",
                  dataset = "main",
                  N_temp = 1000L,
                  temp_prior = "FAIR",
+                 fair_ssps = NA,
                  mean_temp = FALSE,
                  gamma0_prior = "joint",
                  mean_melt = FALSE,
@@ -45,6 +46,7 @@ main <- function(expt = "default",
   #' @param dataset Forcing dataset: 2019, main, IPCC
   #' @param N_temp Number of climate values in prior: 501 code testing, 1000L default for tests, 5000L projections, over-ridden for timeseries
   #' @param temp_prior Climate ensemble for prior: FAIR, CMIP6
+  #' @param fair_ssps Restrict FAIR SSPs run: NA; or e.g. c("SSP126", "SSP585"); must be set for IPCC timeseries runs
   #' @param mean_temp Use mean temperature value or ice sheets: T/F
   #' @param gamma0_prior Gamma0 prior distribution for AIS: "joint", "MeanAnt", "PIGL", "unif", "unif_high"
   #' @param mean_melt Use mean kappa/gamma0 value for ice sheets: T/F
@@ -84,10 +86,13 @@ main <- function(expt = "default",
        exclude_open == TRUE ||
        impute_high == TRUE ) e$ice_source_list <- "AIS"
 
+  # Number of IPCC runs for each SSP
+  N_IPCC <- 2237L # v.0.1.0 i.e. 20210215_CLIMATE_FORCING_IPCC.csv (was 2000 in v.0.0.0)
+
   # Number of T/melt samples in 2100 projections and SA
   # If equal to number of FAIR projections, uses each one, otherwise samples
-  # 501 for testing, 1000 for SA tests, 2000 for FAIR 2LM IPCC, 5000 for FAIR main projections
-  stopifnot(N_temp %in% c(501L, 1000L, 2000L, 5000L))
+  # 501 for testing, 1000 for SA tests, ~2000 for FAIR 2LM IPCC, 5000 for FAIR main projections
+  stopifnot(N_temp %in% c(501L, 1000L, N_IPCC, 5000L))
 
   # Collapse prior
   stopifnot(collapse_prior %in% c("both", "on", "off"))
@@ -229,8 +234,8 @@ main <- function(expt = "default",
   # FORCING csv: old, main or new 2LM forcing
   stopifnot(dataset %in% c("2019", "main", "IPCC"))
 
-  # This is used for timeseries N_temp so that each is a trajectory
-  N_FAIR <- ifelse(dataset == "IPCC", 2000L, 500L)
+  # This is used to override N_temp for timeseries runs, so that each is a trajectory
+  N_FAIR <- ifelse(dataset == "IPCC", N_IPCC, 500L)
 
   # End of anything changed by hand
   #__________________________________________________________________________________________________
@@ -297,25 +302,40 @@ main <- function(expt = "default",
   # SCENARIOS
   # Names match CSV entries
   scenario_list <- list()
+
+  # Full possible lists
   if (dataset == "2019") scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSP370", "SSP585")
   if (dataset == "main") scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSPNDC", "SSP370", "SSP585")
-  if (dataset == "IPCC") {
-    if (expt == "timeseries") scenario_list[["FAIR"]] <- c("SSP126", "SSP585") # can't cope with all 5
-    else scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSP370", "SSP585")
+  if (dataset == "IPCC") scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSP370", "SSP585")
+
+  # Do not allow running all SSPs: too slow
+  if (dataset == "IPCC" && expt == "timeseries") {
+    stopifnot( ! is.na(fair_ssps[1]) )
+  }
+
+  # Subselection of FAIR SSPs, if given
+  if ( !is.na(fair_ssps[1]) ) {
+    scenario_list[["FAIR"]] <- scenario_list[["FAIR"]][ which(scenario_list[["FAIR"]] == fair_ssps ) ]
+    stopifnot(length(scenario_list[["FAIR"]]) >= 1)
   }
 
   scenario_list[["CMIP5"]] <- c("RCP26", "RCP85", "RCP45", "RCP60")
-  scenario_list[["CMIP6"]] <- c("SSP126", "SSP245", "SSP370", "SSP585") # not enough models for 119
+  scenario_list[["CMIP6"]] <- c("SSP126", "SSP245", "SSP370", "SSP585") # not enough models for SSP119
 
   # SSP/RCP names to expect for each ensemble
   # Needs to be same order as scenario_list above
   # XXX Could have done this as a lookup table
   e$scen_name_list <- list()
 
+  # Full lists
   if (dataset == "2019") e$scen_name_list[["FAIR"]] <- c("SSP1-19", "SSP1-26", "SSP2-45", "SSP3-70", "SSP5-85")
   if (dataset == "main") e$scen_name_list[["FAIR"]] <- c("SSP1-19", "SSP1-26", "SSP2-45", "NDCs", "SSP3-70", "SSP5-85")
-  #if (dataset == "IPCC") e$scen_name_list[["FAIR"]] <- c("SSP1-26", "SSP5-85")
-  if (dataset == "IPCC") e$scen_name_list[["FAIR"]] <- c("SSP1-19", "SSP2-45", "SSP3-70")
+  if (dataset == "IPCC") e$scen_name_list[["FAIR"]] <- c("SSP1-19", "SSP1-26", "SSP2-45", "SSP3-70", "SSP5-85")
+
+  # Get subset of names if selecting SSPs
+  if ( !is.na(fair_ssps[1]) ) {
+    e$scen_name_list[["FAIR"]] <- e$scen_name_list[["FAIR"]][ which(scenario_list[["FAIR"]] == fair_ssps ) ]
+  }
 
   e$scen_name_list[["CMIP5"]] <- c("RCP2.6", "RCP8.5", "RCP4.5", "RCP6.0")
   e$scen_name_list[["CMIP6"]] <- c("SSP1-26", "SSP2-45", "SSP3-70", "SSP5-85")
@@ -487,7 +507,7 @@ main <- function(expt = "default",
 
   # READ SEA LEVEL PROJECTIONS
   # Read file and return SL dataset
-  sle.filename <- ifelse(old_data == TRUE, "20191216_SLE_SIMULATIONS.csv", "20201106_SLE_SIMULATIONS_SI.csv")
+  sle.filename <- ifelse(old_data == TRUE, "20191216_SLE_SIMULATIONS.csv", "20201106_SLE_SIMULATIONS.csv")
   e$sle_data <- read_sealevel( min_res, old_data, sle.filename )
 
   # Fixed_melt value for sensitivity analysis

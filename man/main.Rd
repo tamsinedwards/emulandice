@@ -8,8 +8,10 @@ main(
   expt = "default",
   ice_sources = c("GrIS", "AIS", "Glaciers"),
   years = 2100,
+  dataset = "main",
   N_temp = 1000L,
   temp_prior = "FAIR",
+  fair_ssps = NA,
   mean_temp = FALSE,
   gamma0_prior = "joint",
   mean_melt = FALSE,
@@ -33,9 +35,13 @@ main(
 
 \item{years}{Year(s) to predict: default is 2100, time series is 2015:2100}
 
-\item{N_temp}{Number of climate values in prior: 501 code testing, 1000L default for tests, 5000L projections, over-ridden (500) for timeseries}
+\item{dataset}{Forcing dataset: 2019, main, IPCC}
+
+\item{N_temp}{Number of climate values in prior: 501 code testing, 1000L default for tests, 5000L projections, over-ridden for timeseries}
 
 \item{temp_prior}{Climate ensemble for prior: FAIR, CMIP6}
+
+\item{fair_ssps}{Restrict FAIR SSPs run: NA; or e.g. c("SSP126", "SSP585"); must be set for IPCC timeseries runs}
 
 \item{mean_temp}{Use mean temperature value or ice sheets: T/F}
 
@@ -49,7 +55,7 @@ main(
 
 \item{min_res_is}{Set minimum spatial resolution for ice sheets in km (GIS, AIS): default c(8, 32)}
 
-\item{select_ism}{Select subset of ice sheet models by defined list: balanced, single, single_low, high_sensitivity}
+\item{select_ism}{Select subset of ice sheet models by defined list: balanced, single, single_low, high_sensitivity, larmip}
 
 \item{select_gcm}{Select subset of gcms by defined list: high_five, high_two}
 

@@ -10,7 +10,7 @@ read_forcing(
   N_temp,
   climate_prior_kde,
   mean_temp,
-  old_data
+  dataset
 )
 }
 \arguments{
@@ -24,8 +24,7 @@ read_forcing(
 
 \item{mean_temp}{Whether to use mean of GSAT prior instead of sampling}
 
-\item{old_data}{Whether to read old forcing CSV file (2019) for backwards comparisons
-Read in forcing CSV}
+\item{dataset}{Which forcing CSV file to read: 2019, main, IPCC}
 }
 \description{
 Read forcing data from CSV

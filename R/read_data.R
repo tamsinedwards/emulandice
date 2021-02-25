@@ -27,7 +27,7 @@ read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, m
   # File to read from package inst/extdata/ folder
   if (dataset == "2019") forcing.filename <- "20191217_CLIMATE_FORCING.csv"
   if (dataset == "main") forcing.filename <- "20201105_CLIMATE_FORCING.csv"
-  if (dataset == "IPCC") forcing.filename <- "20201112_CLIMATE_FORCING_IPCC.csv"
+  if (dataset == "IPCC") forcing.filename <- "20210215_CLIMATE_FORCING_IPCC.csv"
 
   # Number of initial columns before numeric data columns
   ncol_param <- 3
@@ -269,7 +269,7 @@ read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, m
   if (length(e$years_pred) == 1) {
 
     yy_num <- substr(e$years_pred, 2, nchar(e$years_pred))
-    breaks <- seq(-1, 8, by = 0.2)
+    breaks <- seq(-1, 9, by = 0.2)
 
     pdf( file = paste0( e$outdir, "/MAIN_GSAT_", temp_prior, ".pdf" ), width = 9, height = 8)
     par(mar = c(6, 5, 1.5, 2.5))
@@ -292,7 +292,7 @@ read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, m
       scen_name <- e$scen_name_list[[temp_prior]][ scenario_list[[temp_prior]] == scen ]
 
       if (scen == scenario_list[[temp_prior]][1]) {
-        hist(e$forcing_prior[[scen]], freq = TRUE, breaks = breaks,
+        hist(e$forcing_prior[[scen]], freq = TRUE, breaks = breaks, xlim = c(-1,8),
              xlab = bquote("Global mean temperature change 2015-"*.(yy_num)~"("*degree*"C)"),
              main = NULL,
              col = e$scen_col_trans[[sc]], border = e$scen_col[[sc]],
