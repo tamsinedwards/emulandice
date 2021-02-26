@@ -315,7 +315,9 @@ main <- function(expt = "default",
 
   # Subselection of FAIR SSPs, if given
   if ( !is.na(fair_ssps[1]) ) {
-    scenario_list[["FAIR"]] <- scenario_list[["FAIR"]][ which(scenario_list[["FAIR"]] == fair_ssps ) ]
+    scenario_list[["FAIR"]] <- scenario_list[["FAIR"]][ which(scenario_list[["FAIR"]] %in% fair_ssps ) ]
+    print("Selecting scenarios:")
+    print(scenario_list[["FAIR"]])
     stopifnot(length(scenario_list[["FAIR"]]) >= 1)
   }
 
