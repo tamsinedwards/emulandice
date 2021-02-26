@@ -6,12 +6,16 @@ Input data files (inst/extdata/):
 Calibrated with ISMIP6 and GlacierMIP model projections: 20201106_SLE_SIMULATIONS.csv
 
 Forced with GSAT projections from:
+
 (a) FAIR ensemble of McKenna et al. (2020): 20201105_CLIMATE_FORCING.csv
+
 (b) IPCC AR6 Chapter 7 two layer model ensemble: 20210215_CLIMATE_FORCING_IPCC.csv
 
 Prior distributions on ice sheet parameters derived from:
-Greenland retreat: data_for_tamsin.txt                
-Antarctic basal melt: output_gamma0_NonLocal_MeanAnt.dat and output_gamma0_NonLocal_PIGL.dat
+
+- Greenland retreat: data_for_tamsin.txt                
+
+- Antarctic basal melt: output_gamma0_NonLocal_MeanAnt.dat and output_gamma0_NonLocal_PIGL.dat
 
 Below is the list of commands to run the analyses.
 
@@ -25,30 +29,32 @@ OK to have this message on running:
 # Edwards et al. (2021) ////////////////////////////////////
 
 # Main projections: 2100
-# Set N_temp because default for timeslice is 1000 (for sensitivity tests)
+Set N_temp because default for timeslice is 1000 (for sensitivity tests)
 main(N_temp = 5000L)
 
 # Main projections: full timeseries
 main("timeseries")
 
-# Antarctic projections using subset of ice sheet models common to both LARMIP and ISMIP6
+# Antarctic projections: subset of models in LARMIP and ISMIP6
 main(N_temp = 5000L, select_ism == "larmip")
 
 # IPCC AR6 Chapter 9 ///////////////////////////////////////
 
-# Set N_temp as above
+# Main projections: 200
+Set N_temp as above
 main(dataset = "IPCC", N_temp = 2237L)  
 
-# Run 2-3 SSPs at once for timeseries because 4x larger ensembles than main FAIR projections
+# Main projections: full timeseries
+Run 2-3 SSPs at once for timeseries because 4x larger ensembles than main FAIR projections
 main("timeseries"", dataset = "IPCC", fair_ssps = c("SSP126", "SSP585"))   
 main("timeseries"", dataset = "IPCC", fair_ssps = c("SSP119", "SSP245", "SSP370"))   
 
-# Antarctic projections using subset of ice sheet models common to both LARMIP and ISMIP6
+# Antarctic projections: subset of models in LARMIP and ISMIP6
 main(dataset = "IPCC", N_temp = 2237L, select_ism == "larmip")
 
 #______________________________________________________
 # COVARIANCE FUNCTION TESTS
-# Each sets same covariance function for all regions
+Each sets same covariance function for all regions
 
 # Default covariance (plus model comparison)
 main("SA", do_model_comp = TRUE, do_covar_fn = "matern_5_2")
