@@ -3,13 +3,13 @@ Emulator of multi-model land ice projections (Edwards et al., 2021, Nature).
 
 Input data files (inst/extdata/):
 
-Calibrated with ISMIP6 and GlacierMIP model projections: 20201106_SLE_SIMULATIONS.csv
+Calibrated with ISMIP6 and GlacierMIP model projections: 20201106_SLE_SIMULATIONS.csv.
 
 Forced with GSAT projections from:
 
-(a) FAIR ensemble of McKenna et al. (2020): 20201105_CLIMATE_FORCING.csv
+- FAIR ensemble of McKenna et al. (2020): 20201105_CLIMATE_FORCING.csv, or
 
-(b) IPCC AR6 Chapter 7 two layer model ensemble: 20210215_CLIMATE_FORCING_IPCC.csv
+- IPCC AR6 Chapter 7 two layer model ensemble: 20210215_CLIMATE_FORCING_IPCC.csv
 
 Prior distributions on ice sheet parameters derived from:
 
@@ -17,9 +17,7 @@ Prior distributions on ice sheet parameters derived from:
 
 - Antarctic basal melt: output_gamma0_NonLocal_MeanAnt.dat and output_gamma0_NonLocal_PIGL.dat
 
-Below is the list of commands to run the analyses.
-
-OK to have this message on running: 
+Below is the list of commands to run the analyses. OK to have this message on running: 
 "There were 50 or more warnings (use warnings() to see the first 50)"
 
 
@@ -41,20 +39,20 @@ main(N_temp = 5000L, select_ism == "larmip")
 
 # IPCC AR6 Chapter 9 ///////////////////////////////////////
 
-# Main projections: 200
+# Main projections: 2100
 Set N_temp as above
 
-main(dataset = "IPCC", N_temp = 2237L)  
+main(dataset = "IPCC", N_temp = 10000L)  
 
 # Main projections: full timeseries
 Run 2-3 SSPs at once for timeseries because 4x larger ensembles than main FAIR projections
 
-main("timeseries"", dataset = "IPCC", fair_ssps = c("SSP126", "SSP585"))   
+main("timeseries", dataset = "IPCC", fair_ssps = c("SSP126", "SSP585"))   
 
-main("timeseries"", dataset = "IPCC", fair_ssps = c("SSP119", "SSP245", "SSP370"))   
+main("timeseries", dataset = "IPCC", fair_ssps = c("SSP119", "SSP245", "SSP370"))   
 
 # Antarctic projections: subset of models in LARMIP and ISMIP6
-main(dataset = "IPCC", N_temp = 2237L, select_ism == "larmip")
+main(dataset = "IPCC", N_temp = 10000L, select_ism == "larmip")
 
 #______________________________________________________
 # COVARIANCE FUNCTION TESTS

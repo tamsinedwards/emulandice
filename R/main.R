@@ -92,7 +92,7 @@ main <- function(expt = "default",
   # Number of T/melt samples in 2100 projections and SA
   # If equal to number of FAIR projections, uses each one, otherwise samples
   # 501 for testing, 1000 for SA tests, ~2000 for FAIR 2LM IPCC, 5000 for FAIR main projections
-  stopifnot(N_temp %in% c(501L, 1000L, N_IPCC, 5000L))
+  stopifnot(N_temp %in% c(501L, 1000L, N_IPCC, 5000L, 10000L))
 
   # Collapse prior
   stopifnot(collapse_prior %in% c("both", "on", "off"))
