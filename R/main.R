@@ -10,7 +10,7 @@ e <- new.env(parent = emptyenv())
 print('____________________________________________________')
 print('Welcome to emulandice')
 print(' ', quote = FALSE)
-print('Can ignore the warnings from optimize and regularize')
+print('Can ignore the warnings from optimize')
 print('____________________________________________________')
 
 # No arguments: runs default 2100
@@ -183,8 +183,8 @@ main <- function(expt = "default",
   # 4 AIS models with most runs
   if (select_ism == "balanced") e$cond_ism[["AIS"]] <- c("ILTS_PIK__SICOPOLIS", "JPL1__ISSM", "LSCE__GRISLI", "NCAR__CISM")
 
-  # LARMIP-2 comparison: 12 groups/models common to both (including all variants of model)
-  if (select_ism == "larmip") e$cond_ism[["AIS"]] <- c( "AWI__PISM1", "DOE__MALI",
+  # LARMIP-2 comparison: groups/models common to both (including all variants of model)
+  if (select_ism == "larmip") e$cond_ism[["AIS"]] <- c( "AWI__PISM1", "CPOM__BISICLES", "DOE__MALI",
                                                         "ILTS_PIK__SICOPOLIS", "IMAU__IMAUICE1", "IMAU__IMAUICE2",
                                                         "JPL1__ISSM", "LSCE__GRISLI",
                                                         "NCAR__CISM", "PIK__PISM1", "PIK__PISM2",
@@ -1361,8 +1361,14 @@ main <- function(expt = "default",
             # Quantiles are from 'molehill' integration density estimates
             # Mean, sd, min, max from Monte Carlo sample
 
-            qq <- cumsum(e$pred_dens[[ proj_tag ]]) %>%
-              approx(e$smid, xout = q_list)
+            # Interpolation of 95th percentile for some small capped glaciers was wrong
+            # - discard repeated 0s and 1s at bottom/top of cdf to fix
+            pred_cdf <- cumsum(e$pred_dens[[ proj_tag ]])
+            pred_cdf_ind <- which(pred_cdf > 1e-9 & pred_cdf < (1 - 1e-9), arr.ind = TRUE)
+            pred_cdf_ind <- c(min(pred_cdf_ind)-1, pred_cdf_ind, max(pred_cdf_ind) + 1)
+
+            qq <- c(pred_cdf[pred_cdf_ind]) %>%
+              approx(e$smid[pred_cdf_ind], xout = q_list)
 
             cat( sprintf("%s,%s,%s,%s,%.4f,%.4f,%.4f,%.4f\n",
                          is, reg, yy_num, paste(qq$y, collapse = ","),

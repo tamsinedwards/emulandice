@@ -52,7 +52,9 @@ main("timeseries", dataset = "IPCC", fair_ssps = c("SSP126", "SSP585"))
 main("timeseries", dataset = "IPCC", fair_ssps = c("SSP119", "SSP245", "SSP370"))   
 
 # Antarctic projections: subset of models in LARMIP and ISMIP6
-main(dataset = "IPCC", N_temp = 10000L, select_ism == "larmip")
+main(dataset = "IPCC", N_temp = 10000L, select_ism = "larmip")
+
+main("timeseries", dataset = "IPCC", fair_ssps = c("SSP126", "SSP245", "SSP585"), select_ism = "larmip")
 
 #______________________________________________________
 # COVARIANCE FUNCTION TESTS

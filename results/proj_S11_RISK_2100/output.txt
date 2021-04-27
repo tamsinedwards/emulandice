@@ -1,0 +1,1569 @@
+LAND ICE ANALYSIS
+
+Experiment: default 
+
+read_forcing --------------------------------------
+
+read_forcing: READ 20201105_CLIMATE_FORCING.csv 
+
+Read in 3269 climate simulations
+
+read_forcing: INITIAL DATA
+
+Global mean temperature (GSAT) change since 1850 (CMIP) or 1850-1900 mean (FAIR):
+
+ensemble	scenario	n	n_miss2100	q05	median	q95	mean	sd
+CMIP5	RCP26	28	1	0.959	1.66	2.25	1.68	0.459
+CMIP5	RCP45	38	2	1.707	2.62	3.21	2.55	0.464
+CMIP5	RCP60	20	0	2.399	3.16	3.88	3.09	0.535
+CMIP5	RCP85	38	1	3.529	4.92	6.07	4.82	0.795
+CMIP6	SSP119	13	1	1.035	1.65	2.20	1.61	0.445
+CMIP6	SSP126	31	1	1.310	1.93	2.66	1.94	0.477
+CMIP6	SSP245	30	1	2.207	2.92	4.12	3.00	0.632
+CMIP6	SSP370	29	3	3.516	4.00	6.06	4.33	0.858
+CMIP6	SSP434	6	0	1.734	2.82	3.76	2.82	0.853
+CMIP6	SSP460	5	0	2.886	3.93	5.18	3.89	1.058
+CMIP6	SSP585	31	1	4.129	5.18	7.09	5.37	1.099
+FAIR	SSP119	500	0	0.772	1.21	1.95	1.26	0.386
+FAIR	SSP126	500	0	1.001	1.56	2.52	1.62	0.477
+FAIR	SSP245	500	0	1.567	2.46	3.88	2.55	0.708
+FAIR	SSP370	500	0	2.313	3.59	5.57	3.70	1.000
+FAIR	SSP585	500	0	2.822	4.42	6.78	4.55	1.180
+FAIR	SSPNDC	500	0	2.072	3.26	5.01	3.37	0.897
+
+read_forcing: DATA IMPUTATION
+
+Replacing 11 missing forcing values at 2100 with value at 2099
+
+
+read_forcing: DATA SELECTION
+
+Dropping rows that still have missing data
+Remaining: 3266 climate simulations
+
+Selecting CMIP5+6 ensembles for calibration and FAIR ensemble for projections
+Remaining: 3266 climate simulations
+
+Selecting scenarios (RCPs and SSPs)
+Remaining: 3255 climate simulations
+
+
+read_forcing: FINAL DATA
+
+Global mean temperature (GSAT) change since 1850 (CMIP) or 1850-1900 mean (FAIR):
+
+ensemble	scenario	n	n_miss2100	q05	median	q95	mean	sd
+CMIP5	RCP26	28	0	0.961	1.71	2.25	1.68	0.451
+CMIP5	RCP45	37	0	1.712	2.62	3.20	2.54	0.459
+CMIP5	RCP60	20	0	2.399	3.16	3.88	3.09	0.535
+CMIP5	RCP85	38	0	3.531	4.92	6.07	4.81	0.787
+CMIP6	SSP119	13	0	0.814	1.60	2.20	1.53	0.516
+CMIP6	SSP126	31	0	1.240	1.86	2.65	1.91	0.494
+CMIP6	SSP245	30	0	2.130	2.84	4.10	2.96	0.662
+CMIP6	SSP370	27	0	3.471	3.91	6.03	4.26	0.900
+CMIP6	SSP585	31	0	3.964	5.17	7.07	5.30	1.150
+FAIR	SSP119	500	0	0.772	1.21	1.95	1.26	0.386
+FAIR	SSP126	500	0	1.001	1.56	2.52	1.62	0.477
+FAIR	SSP245	500	0	1.567	2.46	3.88	2.55	0.708
+FAIR	SSP370	500	0	2.313	3.59	5.57	3.70	1.000
+FAIR	SSP585	500	0	2.822	4.42	6.78	4.55	1.180
+FAIR	SSPNDC	500	0	2.072	3.26	5.01	3.37	0.897
+
+Returning: 3255 climate simulations
+
+
+read_forcing: ANOMALIES W.R.T. 2015
+
+Global mean temperature (GSAT) change since 2015:
+
+ensemble	scenario	n	n_miss2100	q05	median	q95	mean	sd
+CMIP5	RCP26	28	0	-0.2246	0.460	1.069	0.467	0.381
+CMIP5	RCP45	37	0	 0.7645	1.445	2.041	1.406	0.428
+CMIP5	RCP60	20	0	 1.3009	1.823	2.745	1.957	0.485
+CMIP5	RCP85	38	0	 2.3503	3.508	4.732	3.643	0.777
+CMIP6	SSP119	13	0	-0.0338	0.421	0.910	0.436	0.326
+CMIP6	SSP126	31	0	 0.3096	0.734	1.569	0.838	0.437
+CMIP6	SSP245	30	0	 1.2086	1.702	2.755	1.886	0.551
+CMIP6	SSP370	27	0	 2.4325	2.993	4.635	3.210	0.738
+CMIP6	SSP585	31	0	 3.0156	3.991	5.978	4.241	1.031
+FAIR	SSP119	500	0	-0.0693	0.172	0.595	0.204	0.212
+FAIR	SSP126	500	0	 0.2285	0.507	1.070	0.560	0.267
+FAIR	SSP245	500	0	 0.8996	1.437	2.379	1.489	0.444
+FAIR	SSP370	500	0	 1.6476	2.561	3.981	2.646	0.706
+FAIR	SSP585	500	0	 2.1950	3.358	5.274	3.489	0.908
+FAIR	SSPNDC	500	0	 1.4287	2.222	3.489	2.307	0.626
+
+read_forcing: PRIOR RESAMPLING
+
+Number of temperature values per year requested: 5000 
+Found 500 temp values for SSP119 
+Resampling 500 temp values to give 5000 prior values for SSP119 
+Returning temp prior of 5000 values for y2100 
+Found 500 temp values for SSP126 
+Resampling 500 temp values to give 5000 prior values for SSP126 
+Returning temp prior of 5000 values for y2100 
+Found 500 temp values for SSP245 
+Resampling 500 temp values to give 5000 prior values for SSP245 
+Returning temp prior of 5000 values for y2100 
+Found 500 temp values for SSPNDC 
+Resampling 500 temp values to give 5000 prior values for SSPNDC 
+Returning temp prior of 5000 values for y2100 
+Found 500 temp values for SSP370 
+Resampling 500 temp values to give 5000 prior values for SSP370 
+Returning temp prior of 5000 values for y2100 
+Found 500 temp values for SSP585 
+Resampling 500 temp values to give 5000 prior values for SSP585 
+Returning temp prior of 5000 values for y2100 
+
+read_sealevel --------------------------------------
+
+read_sealevel: READ 20201106_SLE_SIMULATIONS.csv 
+
+Read in 4839 sea level simulations
+
+read_sealevel: INITIAL DATA
+
+Sea level equivalent (SLE) change since 2015:
+
+Note: Glacier summary doesn't account for model number diffs across regions
+ice_source	scenario	n	n_miss2100	q05	median	q95	mean	sd
+AIS	RCP26	141	0	-0.53348	 0.0757	 2.6746	 0.573	1.518
+AIS	RCP85	711	0	-4.19241	-0.0334	 7.9115	 0.711	3.734
+AIS	SSP126	27	0	-1.99219	-0.7238	 0.0566	-0.836	0.720
+AIS	SSP585	153	0	-4.08049	-0.7453	 2.8209	-0.834	2.176
+Glaciers	RCP26	982	0	 0.00358	 0.1900	 1.5982	 0.407	0.540
+Glaciers	RCP45	993	0	 0.00871	 0.3271	 2.1528	 0.607	0.750
+Glaciers	RCP60	403	0	 0.01087	 0.3137	 2.0465	 0.550	0.668
+Glaciers	RCP85	1173	0	 0.01203	 0.4310	 2.8660	 0.804	1.003
+GrIS	RCP26	23	0	 1.55567	 3.3409	 4.6303	 3.270	0.896
+GrIS	RCP85	156	0	 4.97682	 8.8649	13.8384	 9.202	2.848
+GrIS	SSP126	18	0	 2.81564	 4.4067	 5.9356	 4.498	1.113
+GrIS	SSP585	59	0	 9.51843	14.7529	21.2481	15.630	4.620
+
+Now 4839 sea level simulations
+
+Replacing 0 missing sea level values at 2100 with value at 2099
+
+read_sealevel: DATA SELECTION (IF ANY)
+
+AIS : use only models forced by HadGEM2-ES UKESM1-0-LL MIROC-ESM-CHEM NorESM1-M CCSM4 
+Now 4530 sea level simulations
+
+
+Selecting ice sheet / glacier models
+AIS : selecting 4 group__model pairs
+List: ILTS_PIK__SICOPOLIS ULB__fETISh_16km ULB__fETISh_32km DOE__MALI 
+Now 4014 sea level simulations
+
+
+read_sealevel: DATA TRANSFORMATION
+
+Replacing AIS collapse T/F values with 0/1
+
+read_sealevel: DATA IMPUTATION
+
+Initial mean of all AIS melt values: 57831 
+171 AIS experiments with std melt
+Mean (imputed value): 57831 
+36 experiments with open melt
+Mean (values to be replaced): NA 
+Final mean of all AIS melt values (should match imputed value): 57831 
+
+Initial mean of all GrIS melt values: -0.2073066 
+227 GrIS experiments with std melt
+Mean (imputed value): -0.2073066 
+29 experiments with open melt
+Mean (values to be replaced): NA 
+
+Final mean of all GrIS melt values: -0.2073066 
+
+MELT VAL -0.2073066
+Remaining: 4014 sea level simulations
+
+
+read_sealevel: FINAL DATA
+
+Sea level equivalent (SLE) change since 2015:
+
+Note: Glacier summary doesn't account for model number diffs across regions
+ice_source	scenario	n	n_miss2100	q05	median	q95	mean	sd
+AIS	RCP26	24	0	-0.00979	 0.830	 4.44	 1.512	2.840
+AIS	RCP85	174	0	-4.13525	 1.087	12.64	 2.721	5.377
+AIS	SSP585	9	0	-0.61713	 0.217	 5.63	 1.577	2.537
+Glaciers	RCP26	982	0	 0.00358	 0.190	 1.60	 0.407	0.540
+Glaciers	RCP45	993	0	 0.00871	 0.327	 2.15	 0.607	0.750
+Glaciers	RCP60	403	0	 0.01087	 0.314	 2.05	 0.550	0.668
+Glaciers	RCP85	1173	0	 0.01203	 0.431	 2.87	 0.804	1.003
+GrIS	RCP26	23	0	 1.55567	 3.341	 4.63	 3.270	0.896
+GrIS	RCP85	156	0	 4.97682	 8.865	13.84	 9.202	2.848
+GrIS	SSP126	18	0	 2.81564	 4.407	 5.94	 4.498	1.113
+GrIS	SSP585	59	0	 9.51843	14.753	21.25	15.630	4.620
+
+Returning: 4014 sea level simulations
+
+
+Rescaling AIS gamma: dividing by scale factor 1000 
+
+
+
+Number of columns before data: 11 
+
+read_melt --------------------------------------
+
+Antarctic prior: PIGL
+Range of AIS gamma prior values before and after rescaling:
+56906.07 1567702 
+56.90607 1567.702 
+
+
+emulators ---------------------------
+
+Add dummy variable for standard/open melt
+
+ GrIS :
+
+ ALL :
+~ temp + melt + melt0 
+
+
+mme plots ---------------------------
+
+
+_______________________________________________________________
+Year: 2100 
+_______________________________________________________________
+
+Get temperature prior for SSP119 
+N temperatures: 5000 
+
+Get temperature prior for SSP126 
+N temperatures: 5000 
+
+Get temperature prior for SSP245 
+N temperatures: 5000 
+
+Get temperature prior for SSPNDC 
+N temperatures: 5000 
+
+Get temperature prior for SSP370 
+N temperatures: 5000 
+
+Get temperature prior for SSP585 
+N temperatures: 5000 
+
+_____________________________________________________
+Ice source: GrIS 2100 
+_____________________________________________________
+
+______________________________________
+Region: Greenland 2100 
+______________________________________
+
+Mean function: ~ temp + melt + melt0 
+Covariance function: pow_exp 
+alpha = 0.1 
+
+Inputs: temp melt melt0 
+
+Unscaled: Mean and s.d. of temp: 3.606408 1.544165 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 3.606408 -0.2073066 0.1132812 
+Scale factors for each input: 1.544165 0.177331 0.3175571 
+
+Scaled: Mean and s.d. of temp: -1.072594e-16 1 
+
+ SSP119 
+
+ SSP126 
+Plot pdfs with simulation histograms
+Range of data: 1.091 - 6.9712 
+
+ SSP245 
+
+ SSPNDC 
+
+ SSP370 
+
+ SSP585 
+Plot pdfs with simulation histograms
+Range of data: 3.5243 - 34.5516 
+
+_____________________________________________________
+Ice source: AIS 2100 
+_____________________________________________________
+
+______________________________________
+Region: West Antarctica 2100 
+______________________________________
+
+Mean function: ~ temp + melt + collapse 
+Covariance function: pow_exp 
+alpha = 0.1 
+
+Inputs: temp melt collapse 
+
+Unscaled: Mean and s.d. of temp: 3.512764 1.429552 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 3.512764 57.831 0.1304348 
+Scale factors for each input: 1.429552 98.58133 0.3392485 
+
+Scaled: Mean and s.d. of temp: 1.029788e-16 1 
+
+ SSP119 
+
+ SSP126 
+Plot pdfs with simulation histograms
+Range of data: 0.723144531 - 13.78251401 
+
+ SSP245 
+
+ SSPNDC 
+
+ SSP370 
+
+ SSP585 
+Plot pdfs with simulation histograms
+Range of data: 0.269436523 - 26.11593966 
+
+______________________________________
+Region: East Antarctica 2100 
+______________________________________
+
+Mean function: ~ temp + melt + collapse 
+Covariance function: pow_exp 
+alpha = 0.1 
+
+Inputs: temp melt collapse 
+
+Unscaled: Mean and s.d. of temp: 3.512764 1.429552 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 3.512764 57.831 0.1304348 
+Scale factors for each input: 1.429552 98.58133 0.3392485 
+
+Scaled: Mean and s.d. of temp: 1.029788e-16 1 
+
+ SSP119 
+
+ SSP126 
+Plot pdfs with simulation histograms
+Range of data: 0.069684124 - 3.10364709 
+
+ SSP245 
+
+ SSPNDC 
+
+ SSP370 
+
+ SSP585 
+Plot pdfs with simulation histograms
+Range of data: -5.348521013 - 15.34026724 
+
+______________________________________
+Region: Antarctic Peninsula 2100 
+______________________________________
+
+Mean function: ~ temp + melt + collapse 
+Covariance function: pow_exp 
+alpha = 0.1 
+
+Inputs: temp melt collapse 
+
+Unscaled: Mean and s.d. of temp: 3.512764 1.429552 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 3.512764 57.831 0.1304348 
+Scale factors for each input: 1.429552 98.58133 0.3392485 
+
+Scaled: Mean and s.d. of temp: 1.029788e-16 1 
+
+ SSP119 
+
+ SSP126 
+Plot pdfs with simulation histograms
+Range of data: -0.025422801 - 0.391182247 
+
+ SSP245 
+
+ SSPNDC 
+
+ SSP370 
+
+ SSP585 
+Plot pdfs with simulation histograms
+Range of data: -0.435242053 - 2.813203125 
+
+_____________________________________________________
+Ice source: Glaciers 2100 
+_____________________________________________________
+
+______________________________________
+Region: Alaska 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 1 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.988216 1.341921 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.988216 
+Scale factors for each input: 1.341921 
+
+Scaled: Mean and s.d. of temp: -7.996905e-17 1 
+
+ SSP119 
+Capping glacier region_1 pdf estimate at 4.33  cm
+
+ SSP126 
+Capping glacier region_1 pdf estimate at 4.33  cm
+Plot pdfs with simulation histograms
+Range of data: -0.693875539 - 2.563183459 
+
+ SSP245 
+Capping glacier region_1 pdf estimate at 4.33  cm
+Plot pdfs with simulation histograms
+Range of data: -0.736 - 2.967678071 
+
+ SSPNDC 
+Capping glacier region_1 sample prediction at 4.33  cm
+Initial range: -0.8096951 5.426246 
+Final range: -0.8096951 4.33 
+Capping glacier region_1 pdf estimate at 4.33  cm
+
+ SSP370 
+Capping glacier region_1 sample prediction at 4.33  cm
+Initial range: -0.9267766 5.175493 
+Final range: -0.9267766 4.33 
+Capping glacier region_1 pdf estimate at 4.33  cm
+
+ SSP585 
+Capping glacier region_1 sample prediction at 4.33  cm
+Initial range: -0.5522572 6.730577 
+Final range: -0.5522572 4.33 
+Capping glacier region_1 pdf estimate at 4.33  cm
+Plot pdfs with simulation histograms
+Range of data: -0.525655172 - 3.937887392 
+
+______________________________________
+Region: Western Canada and U.S. 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 1.9 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.988216 1.341921 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.988216 
+Scale factors for each input: 1.341921 
+
+Scaled: Mean and s.d. of temp: -7.996905e-17 1 
+
+ SSP119 
+Capping glacier region_2 sample prediction at 0.26  cm
+Initial range: -0.01968243 0.3256734 
+Final range: -0.01968243 0.26 
+Capping glacier region_2 pdf estimate at 0.26  cm
+
+ SSP126 
+Capping glacier region_2 sample prediction at 0.26  cm
+Initial range: -0.006184986 0.372249 
+Final range: -0.006184986 0.26 
+Capping glacier region_2 pdf estimate at 0.26  cm
+Plot pdfs with simulation histograms
+Range of data: 0.030545377 - 0.266274786 
+
+ SSP245 
+Capping glacier region_2 sample prediction at 0.26  cm
+Initial range: -0.02533974 0.3660361 
+Final range: -0.02533974 0.26 
+Capping glacier region_2 pdf estimate at 0.26  cm
+Plot pdfs with simulation histograms
+Range of data: 0.051674198 - 0.269845486 
+
+ SSPNDC 
+Capping glacier region_2 sample prediction at 0.26  cm
+Initial range: 0.04486895 0.3787772 
+Final range: 0.04486895 0.26 
+Capping glacier region_2 pdf estimate at 0.26  cm
+
+ SSP370 
+Capping glacier region_2 emulator prediction at 0.26  cm
+Initial range: 0.1815195 0.2806961 
+Final range: 0.1815195 0.26 
+Capping glacier region_2 sample prediction at 0.26  cm
+Initial range: 0.01267021 0.3872861 
+Final range: 0.01267021 0.26 
+Capping glacier region_2 pdf estimate at 0.26  cm
+
+ SSP585 
+Capping glacier region_2 emulator prediction at 0.26  cm
+Initial range: 0.1925036 0.3077813 
+Final range: 0.1925036 0.26 
+Capping glacier region_2 sample prediction at 0.26  cm
+Initial range: 0.05749644 0.4206093 
+Final range: 0.05749644 0.26 
+Capping glacier region_2 pdf estimate at 0.26  cm
+Plot pdfs with simulation histograms
+Range of data: 0.089323579 - 0.294125732 
+
+______________________________________
+Region: Arctic Canada (North) 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 1.9 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.988216 1.341921 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.988216 
+Scale factors for each input: 1.341921 
+
+Scaled: Mean and s.d. of temp: -7.996905e-17 1 
+
+ SSP119 
+Capping glacier region_3 pdf estimate at 6.48  cm
+
+ SSP126 
+Capping glacier region_3 pdf estimate at 6.48  cm
+Plot pdfs with simulation histograms
+Range of data: 0.06869181 - 2.68627694 
+
+ SSP245 
+Capping glacier region_3 pdf estimate at 6.48  cm
+Plot pdfs with simulation histograms
+Range of data: 0.395007004 - 4.641872845 
+
+ SSPNDC 
+Capping glacier region_3 pdf estimate at 6.48  cm
+
+ SSP370 
+Capping glacier region_3 pdf estimate at 6.48  cm
+
+ SSP585 
+Capping glacier region_3 pdf estimate at 6.48  cm
+Plot pdfs with simulation histograms
+Range of data: 0.431889548 - 6.210560345 
+
+______________________________________
+Region: Arctic Canada (South) 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 0.1 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.988216 1.341921 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.988216 
+Scale factors for each input: 1.341921 
+
+Scaled: Mean and s.d. of temp: -7.996905e-17 1 
+
+ SSP119 
+Capping glacier region_4 pdf estimate at 2.05  cm
+
+ SSP126 
+Capping glacier region_4 pdf estimate at 2.05  cm
+Plot pdfs with simulation histograms
+Range of data: -0.018292565 - 1.589674097 
+
+ SSP245 
+Capping glacier region_4 sample prediction at 2.05  cm
+Initial range: -0.6841686 2.251465 
+Final range: -0.6841686 2.05 
+Capping glacier region_4 pdf estimate at 2.05  cm
+Plot pdfs with simulation histograms
+Range of data: 0.02683055 - 1.938673862 
+
+ SSPNDC 
+Capping glacier region_4 sample prediction at 2.05  cm
+Initial range: -0.4024482 2.334679 
+Final range: -0.4024482 2.05 
+Capping glacier region_4 pdf estimate at 2.05  cm
+
+ SSP370 
+Capping glacier region_4 sample prediction at 2.05  cm
+Initial range: -0.4035711 2.519592 
+Final range: -0.4035711 2.05 
+Capping glacier region_4 pdf estimate at 2.05  cm
+
+ SSP585 
+Capping glacier region_4 sample prediction at 2.05  cm
+Initial range: -0.4920678 3.110497 
+Final range: -0.4920678 2.05 
+Capping glacier region_4 pdf estimate at 2.05  cm
+Plot pdfs with simulation histograms
+Range of data: 0.079536638 - 2.208369612 
+
+______________________________________
+Region: Greenland periphery 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 0.1 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.988216 1.341921 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.988216 
+Scale factors for each input: 1.341921 
+
+Scaled: Mean and s.d. of temp: -7.996905e-17 1 
+
+ SSP119 
+Capping glacier region_5 pdf estimate at 3.36  cm
+
+ SSP126 
+Capping glacier region_5 pdf estimate at 3.36  cm
+Plot pdfs with simulation histograms
+Range of data: -0.890648168 - 2.010643319 
+
+ SSP245 
+Capping glacier region_5 sample prediction at 3.36  cm
+Initial range: -1.155143 3.559899 
+Final range: -1.155143 3.36 
+Capping glacier region_5 pdf estimate at 3.36  cm
+Plot pdfs with simulation histograms
+Range of data: -0.801103448 - 2.492533809 
+
+ SSPNDC 
+Capping glacier region_5 sample prediction at 3.36  cm
+Initial range: -0.9224029 3.48888 
+Final range: -0.9224029 3.36 
+Capping glacier region_5 pdf estimate at 3.36  cm
+
+ SSP370 
+Capping glacier region_5 sample prediction at 3.36  cm
+Initial range: -0.6329317 4.226276 
+Final range: -0.6329317 3.36 
+Capping glacier region_5 pdf estimate at 3.36  cm
+
+ SSP585 
+Capping glacier region_5 sample prediction at 3.36  cm
+Initial range: -0.6106289 4.88727 
+Final range: -0.6106289 3.36 
+Capping glacier region_5 pdf estimate at 3.36  cm
+Plot pdfs with simulation histograms
+Range of data: -0.526482759 - 3.117870825 
+
+______________________________________
+Region: Iceland 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 1 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.988216 1.341921 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.988216 
+Scale factors for each input: 1.341921 
+
+Scaled: Mean and s.d. of temp: -7.996905e-17 1 
+
+ SSP119 
+Capping glacier region_6 sample prediction at 0.91  cm
+Initial range: -0.6691173 1.002577 
+Final range: -0.6691173 0.91 
+Capping glacier region_6 pdf estimate at 0.91  cm
+
+ SSP126 
+Capping glacier region_6 sample prediction at 0.91  cm
+Initial range: -0.5242255 1.010094 
+Final range: -0.5242255 0.91 
+Capping glacier region_6 pdf estimate at 0.91  cm
+Plot pdfs with simulation histograms
+Range of data: -0.065118534 - 0.668492928 
+
+ SSP245 
+Capping glacier region_6 sample prediction at 0.91  cm
+Initial range: -0.5521804 1.01597 
+Final range: -0.5521804 0.91 
+Capping glacier region_6 pdf estimate at 0.91  cm
+Plot pdfs with simulation histograms
+Range of data: -0.07924542 - 0.731597454 
+
+ SSPNDC 
+Capping glacier region_6 sample prediction at 0.91  cm
+Initial range: -0.3864635 1.159713 
+Final range: -0.3864635 0.91 
+Capping glacier region_6 pdf estimate at 0.91  cm
+
+ SSP370 
+Capping glacier region_6 sample prediction at 0.91  cm
+Initial range: -0.480031 1.329262 
+Final range: -0.480031 0.91 
+Capping glacier region_6 pdf estimate at 0.91  cm
+
+ SSP585 
+Capping glacier region_6 sample prediction at 0.91  cm
+Initial range: -0.4477001 1.273741 
+Final range: -0.4477001 0.91 
+Capping glacier region_6 pdf estimate at 0.91  cm
+Plot pdfs with simulation histograms
+Range of data: 0.021832907 - 0.812285964 
+
+______________________________________
+Region: Svalbard 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 0.1 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.988216 1.341921 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.988216 
+Scale factors for each input: 1.341921 
+
+Scaled: Mean and s.d. of temp: -7.996905e-17 1 
+
+ SSP119 
+Capping glacier region_7 sample prediction at 1.73  cm
+Initial range: -1.106977 2.797728 
+Final range: -1.106977 1.73 
+Capping glacier region_7 pdf estimate at 1.73  cm
+
+ SSP126 
+Capping glacier region_7 sample prediction at 1.73  cm
+Initial range: -1.199428 2.860379 
+Final range: -1.199428 1.73 
+Capping glacier region_7 pdf estimate at 1.73  cm
+Plot pdfs with simulation histograms
+Range of data: 0.140932381 - 1.995182954 
+
+ SSP245 
+Capping glacier region_7 sample prediction at 1.73  cm
+Initial range: -0.9426409 2.746713 
+Final range: -0.9426409 1.73 
+Capping glacier region_7 pdf estimate at 1.73  cm
+Plot pdfs with simulation histograms
+Range of data: 0.26519181 - 2.358308897 
+
+ SSPNDC 
+Capping glacier region_7 emulator prediction at 1.73  cm
+Initial range: 0.9294888 1.859544 
+Final range: 0.9294888 1.73 
+Capping glacier region_7 sample prediction at 1.73  cm
+Initial range: -0.6044279 3.119951 
+Final range: -0.6044279 1.73 
+Capping glacier region_7 pdf estimate at 1.73  cm
+
+ SSP370 
+Capping glacier region_7 emulator prediction at 1.73  cm
+Initial range: 1.008983 2.105164 
+Final range: 1.008983 1.73 
+Capping glacier region_7 sample prediction at 1.73  cm
+Initial range: -0.593842 3.279941 
+Final range: -0.593842 1.73 
+Capping glacier region_7 pdf estimate at 1.73  cm
+
+ SSP585 
+Capping glacier region_7 emulator prediction at 1.73  cm
+Initial range: 1.07251 2.394271 
+Final range: 1.07251 1.73 
+Capping glacier region_7 sample prediction at 1.73  cm
+Initial range: -0.407499 3.338087 
+Final range: -0.407499 1.73 
+Capping glacier region_7 pdf estimate at 1.73  cm
+Plot pdfs with simulation histograms
+Range of data: 0.49368521 - 2.547863782 
+
+______________________________________
+Region: Scandinavia 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 1 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.988216 1.341921 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.988216 
+Scale factors for each input: 1.341921 
+
+Scaled: Mean and s.d. of temp: -7.996905e-17 1 
+
+ SSP119 
+Capping glacier region_8 sample prediction at 0.07  cm
+Initial range: -0.02952316 0.08036008 
+Final range: -0.02952316 0.07 
+Capping glacier region_8 pdf estimate at 0.07  cm
+
+ SSP126 
+Capping glacier region_8 sample prediction at 0.07  cm
+Initial range: -0.02757905 0.08891369 
+Final range: -0.02757905 0.07 
+Capping glacier region_8 pdf estimate at 0.07  cm
+Plot pdfs with simulation histograms
+Range of data: 0.001013794 - 0.06704128 
+
+ SSP245 
+Capping glacier region_8 sample prediction at 0.07  cm
+Initial range: -0.01059905 0.09651119 
+Final range: -0.01059905 0.07 
+Capping glacier region_8 pdf estimate at 0.07  cm
+Plot pdfs with simulation histograms
+Range of data: 0.005661495 - 0.067451854 
+
+ SSPNDC 
+Capping glacier region_8 sample prediction at 0.07  cm
+Initial range: -0.012881 0.09371229 
+Final range: -0.012881 0.07 
+Capping glacier region_8 pdf estimate at 0.07  cm
+
+ SSP370 
+Capping glacier region_8 sample prediction at 0.07  cm
+Initial range: -0.01002215 0.1100549 
+Final range: -0.01002215 0.07 
+Capping glacier region_8 pdf estimate at 0.07  cm
+
+ SSP585 
+Capping glacier region_8 emulator prediction at 0.07  cm
+Initial range: 0.03434928 0.07108864 
+Final range: 0.03434928 0.07 
+Capping glacier region_8 sample prediction at 0.07  cm
+Initial range: -0.02551354 0.1022776 
+Final range: -0.02551354 0.07 
+Capping glacier region_8 pdf estimate at 0.07  cm
+Plot pdfs with simulation histograms
+Range of data: 0.019527449 - 0.073652412 
+
+______________________________________
+Region: Russian Arctic 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 1 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.988216 1.341921 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.988216 
+Scale factors for each input: 1.341921 
+
+Scaled: Mean and s.d. of temp: -7.996905e-17 1 
+
+ SSP119 
+Capping glacier region_9 pdf estimate at 3.2  cm
+
+ SSP126 
+Capping glacier region_9 sample prediction at 3.2  cm
+Initial range: -1.353986 3.397343 
+Final range: -1.353986 3.2 
+Capping glacier region_9 pdf estimate at 3.2  cm
+Plot pdfs with simulation histograms
+Range of data: 0.240369612 - 2.183552869 
+
+ SSP245 
+Capping glacier region_9 sample prediction at 3.2  cm
+Initial range: -0.8900226 3.692509 
+Final range: -0.8900226 3.2 
+Capping glacier region_9 pdf estimate at 3.2  cm
+Plot pdfs with simulation histograms
+Range of data: 0.430438577 - 3.189685345 
+
+ SSPNDC 
+Capping glacier region_9 sample prediction at 3.2  cm
+Initial range: -0.755421 3.871997 
+Final range: -0.755421 3.2 
+Capping glacier region_9 pdf estimate at 3.2  cm
+
+ SSP370 
+Capping glacier region_9 sample prediction at 3.2  cm
+Initial range: -0.6599564 4.245563 
+Final range: -0.6599564 3.2 
+Capping glacier region_9 pdf estimate at 3.2  cm
+
+ SSP585 
+Capping glacier region_9 emulator prediction at 3.2  cm
+Initial range: 1.18179 3.697446 
+Final range: 1.18179 3.2 
+Capping glacier region_9 sample prediction at 3.2  cm
+Initial range: -0.793228 4.685697 
+Final range: -0.793228 3.2 
+Capping glacier region_9 pdf estimate at 3.2  cm
+Plot pdfs with simulation histograms
+Range of data: 0.773242996 - 3.857532866 
+
+______________________________________
+Region: North Asia 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 1 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.988216 1.341921 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.988216 
+Scale factors for each input: 1.341921 
+
+Scaled: Mean and s.d. of temp: -7.996905e-17 1 
+
+ SSP119 
+Capping glacier region_10 sample prediction at 0.03  cm
+Initial range: -0.02865486 0.05924776 
+Final range: -0.02865486 0.03 
+Capping glacier region_10 pdf estimate at 0.03  cm
+
+ SSP126 
+Capping glacier region_10 sample prediction at 0.03  cm
+Initial range: -0.02465993 0.06367608 
+Final range: -0.02465993 0.03 
+Capping glacier region_10 pdf estimate at 0.03  cm
+Plot pdfs with simulation histograms
+Range of data: -0.013357792 - 0.033031724 
+
+ SSP245 
+Capping glacier region_10 emulator prediction at 0.03  cm
+Initial range: 0.01953342 0.03242204 
+Final range: 0.01953342 0.03 
+Capping glacier region_10 sample prediction at 0.03  cm
+Initial range: -0.01368798 0.07305246 
+Final range: -0.01368798 0.03 
+Capping glacier region_10 pdf estimate at 0.03  cm
+Plot pdfs with simulation histograms
+Range of data: -0.009599723 - 0.053642708 
+
+ SSPNDC 
+Capping glacier region_10 emulator prediction at 0.03  cm
+Initial range: 0.02320097 0.03839572 
+Final range: 0.02320097 0.03 
+Capping glacier region_10 sample prediction at 0.03  cm
+Initial range: -0.01279457 0.06802587 
+Final range: -0.01279457 0.03 
+Capping glacier region_10 pdf estimate at 0.03  cm
+
+ SSP370 
+Capping glacier region_10 emulator prediction at 0.03  cm
+Initial range: 0.02531087 0.04314429 
+Final range: 0.02531087 0.03 
+Capping glacier region_10 sample prediction at 0.03  cm
+Initial range: -0.01313989 0.07355768 
+Final range: -0.01313989 0.03 
+Capping glacier region_10 pdf estimate at 0.03  cm
+
+ SSP585 
+Capping glacier region_10 emulator prediction at 0.03  cm
+Initial range: 0.02714308 0.04860321 
+Final range: 0.02714308 0.03 
+Capping glacier region_10 sample prediction at 0.03  cm
+Initial range: -0.01102338 0.075908 
+Final range: -0.01102338 0.03 
+Capping glacier region_10 pdf estimate at 0.03  cm
+Plot pdfs with simulation histograms
+Range of data: -0.002195864 - 0.057430307 
+
+______________________________________
+Region: Central Europe 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 1 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 2.005994 1.376305 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 2.005994 
+Scale factors for each input: 1.376305 
+
+Scaled: Mean and s.d. of temp: 1.194179e-16 1 
+
+ SSP119 
+Capping glacier region_11 sample prediction at 0.03  cm
+Initial range: -0.003685244 0.04194215 
+Final range: -0.003685244 0.03 
+Capping glacier region_11 pdf estimate at 0.03  cm
+
+ SSP126 
+Capping glacier region_11 sample prediction at 0.03  cm
+Initial range: -0.003880648 0.04102395 
+Final range: -0.003880648 0.03 
+Capping glacier region_11 pdf estimate at 0.03  cm
+Plot pdfs with simulation histograms
+Range of data: 0.005893593 - 0.033595111 
+
+ SSP245 
+Capping glacier region_11 sample prediction at 0.03  cm
+Initial range: 0.004797026 0.04483802 
+Final range: 0.004797026 0.03 
+Capping glacier region_11 pdf estimate at 0.03  cm
+Plot pdfs with simulation histograms
+Range of data: 0.013397794 - 0.040080017 
+
+ SSPNDC 
+Capping glacier region_11 emulator prediction at 0.03  cm
+Initial range: 0.0214298 0.03094409 
+Final range: 0.0214298 0.03 
+Capping glacier region_11 sample prediction at 0.03  cm
+Initial range: 0.006499655 0.04667409 
+Final range: 0.006499655 0.03 
+Capping glacier region_11 pdf estimate at 0.03  cm
+
+ SSP370 
+Capping glacier region_11 emulator prediction at 0.03  cm
+Initial range: 0.0227716 0.03453192 
+Final range: 0.0227716 0.03 
+Capping glacier region_11 sample prediction at 0.03  cm
+Initial range: 0.003233672 0.04678108 
+Final range: 0.003233672 0.03 
+Capping glacier region_11 pdf estimate at 0.03  cm
+
+ SSP585 
+Capping glacier region_11 emulator prediction at 0.03  cm
+Initial range: 0.02419052 0.03871168 
+Final range: 0.02419052 0.03 
+Capping glacier region_11 sample prediction at 0.03  cm
+Initial range: 0.00761726 0.04952849 
+Final range: 0.00761726 0.03 
+Capping glacier region_11 pdf estimate at 0.03  cm
+Plot pdfs with simulation histograms
+Range of data: 0.01938671 - 0.037442535 
+
+______________________________________
+Region: Caucasus 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: matern_3_2 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.988216 1.341921 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.988216 
+Scale factors for each input: 1.341921 
+
+Scaled: Mean and s.d. of temp: -7.996905e-17 1 
+
+ SSP119 
+Capping glacier region_12 pdf estimate at 0.02  cm
+
+ SSP126 
+Capping glacier region_12 pdf estimate at 0.02  cm
+Plot pdfs with simulation histograms
+Range of data: 0.002649834 - 0.015726167 
+
+ SSP245 
+Capping glacier region_12 sample prediction at 0.02  cm
+Initial range: 0.001707216 0.02231405 
+Final range: 0.001707216 0.02 
+Capping glacier region_12 pdf estimate at 0.02  cm
+Plot pdfs with simulation histograms
+Range of data: 0.008059862 - 0.017199509 
+
+ SSPNDC 
+Capping glacier region_12 sample prediction at 0.02  cm
+Initial range: 0.003644472 0.02405978 
+Final range: 0.003644472 0.02 
+Capping glacier region_12 pdf estimate at 0.02  cm
+
+ SSP370 
+Capping glacier region_12 sample prediction at 0.02  cm
+Initial range: 0.004378872 0.02369524 
+Final range: 0.004378872 0.02 
+Capping glacier region_12 pdf estimate at 0.02  cm
+
+ SSP585 
+Capping glacier region_12 sample prediction at 0.02  cm
+Initial range: 0.004294828 0.0256172 
+Final range: 0.004294828 0.02 
+Capping glacier region_12 pdf estimate at 0.02  cm
+Plot pdfs with simulation histograms
+Range of data: 0.009484946 - 0.017826278 
+
+______________________________________
+Region: Central Asia 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 0.1 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.947844 1.317065 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.947844 
+Scale factors for each input: 1.317065 
+
+Scaled: Mean and s.d. of temp: 1.011495e-16 1 
+
+ SSP119 
+Capping glacier region_13 sample prediction at 0.79  cm
+Initial range: -0.3130122 1.069688 
+Final range: -0.3130122 0.79 
+Capping glacier region_13 pdf estimate at 0.79  cm
+
+ SSP126 
+Capping glacier region_13 sample prediction at 0.79  cm
+Initial range: -0.2823494 1.123269 
+Final range: -0.2823494 0.79 
+Capping glacier region_13 pdf estimate at 0.79  cm
+Plot pdfs with simulation histograms
+Range of data: 0.027253805 - 0.721690211 
+
+ SSP245 
+Capping glacier region_13 sample prediction at 0.79  cm
+Initial range: -0.2226354 1.211933 
+Final range: -0.2226354 0.79 
+Capping glacier region_13 pdf estimate at 0.79  cm
+Plot pdfs with simulation histograms
+Range of data: 0.255802903 - 1.326014615 
+
+ SSPNDC 
+Capping glacier region_13 emulator prediction at 0.79  cm
+Initial range: 0.4617929 0.8971527 
+Final range: 0.4617929 0.79 
+Capping glacier region_13 sample prediction at 0.79  cm
+Initial range: -0.172322 1.234853 
+Final range: -0.172322 0.79 
+Capping glacier region_13 pdf estimate at 0.79  cm
+
+ SSP370 
+Capping glacier region_13 emulator prediction at 0.79  cm
+Initial range: 0.4907688 1.013607 
+Final range: 0.4907688 0.79 
+Capping glacier region_13 sample prediction at 0.79  cm
+Initial range: -0.1677925 1.391804 
+Final range: -0.1677925 0.79 
+Capping glacier region_13 pdf estimate at 0.79  cm
+
+ SSP585 
+Capping glacier region_13 emulator prediction at 0.79  cm
+Initial range: 0.5250948 1.150801 
+Final range: 0.5250948 0.79 
+Capping glacier region_13 sample prediction at 0.79  cm
+Initial range: -0.0673403 1.466641 
+Final range: -0.0673403 0.79 
+Capping glacier region_13 pdf estimate at 0.79  cm
+Plot pdfs with simulation histograms
+Range of data: 0.327629176 - 1.430995134 
+
+______________________________________
+Region: South Asia (West) 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 1.9 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.947844 1.317065 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.947844 
+Scale factors for each input: 1.317065 
+
+Scaled: Mean and s.d. of temp: 1.011495e-16 1 
+
+ SSP119 
+Capping glacier region_14 sample prediction at 0.69  cm
+Initial range: -0.3128566 0.7428276 
+Final range: -0.3128566 0.69 
+Capping glacier region_14 pdf estimate at 0.69  cm
+
+ SSP126 
+Capping glacier region_14 sample prediction at 0.69  cm
+Initial range: -0.2087911 0.7611313 
+Final range: -0.2087911 0.69 
+Capping glacier region_14 pdf estimate at 0.69  cm
+Plot pdfs with simulation histograms
+Range of data: 0.078626212 - 0.548537934 
+
+ SSP245 
+Capping glacier region_14 sample prediction at 0.69  cm
+Initial range: -0.207127 0.8783499 
+Final range: -0.207127 0.69 
+Capping glacier region_14 pdf estimate at 0.69  cm
+Plot pdfs with simulation histograms
+Range of data: 0.20611281 - 0.843902512 
+
+ SSPNDC 
+Capping glacier region_14 sample prediction at 0.69  cm
+Initial range: -0.1007746 0.9549256 
+Final range: -0.1007746 0.69 
+Capping glacier region_14 pdf estimate at 0.69  cm
+
+ SSP370 
+Capping glacier region_14 emulator prediction at 0.69  cm
+Initial range: 0.3559024 0.7774898 
+Final range: 0.3559024 0.69 
+Capping glacier region_14 sample prediction at 0.69  cm
+Initial range: -0.007601097 1.089816 
+Final range: -0.007601097 0.69 
+Capping glacier region_14 pdf estimate at 0.69  cm
+
+ SSP585 
+Capping glacier region_14 emulator prediction at 0.69  cm
+Initial range: 0.3814687 0.8863873 
+Final range: 0.3814687 0.69 
+Capping glacier region_14 sample prediction at 0.69  cm
+Initial range: -0.03538855 1.125823 
+Final range: -0.03538855 0.69 
+Capping glacier region_14 pdf estimate at 0.69  cm
+Plot pdfs with simulation histograms
+Range of data: 0.31505233 - 0.99440785 
+
+______________________________________
+Region: South Asia (East) 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 0.1 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.947844 1.317065 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.947844 
+Scale factors for each input: 1.317065 
+
+Scaled: Mean and s.d. of temp: 1.011495e-16 1 
+
+ SSP119 
+Capping glacier region_15 sample prediction at 0.21  cm
+Initial range: -0.09432367 0.3223031 
+Final range: -0.09432367 0.21 
+Capping glacier region_15 pdf estimate at 0.21  cm
+
+ SSP126 
+Capping glacier region_15 sample prediction at 0.21  cm
+Initial range: -0.1186428 0.3317993 
+Final range: -0.1186428 0.21 
+Capping glacier region_15 pdf estimate at 0.21  cm
+Plot pdfs with simulation histograms
+Range of data: -0.042506482 - 0.197562565 
+
+ SSP245 
+Capping glacier region_15 sample prediction at 0.21  cm
+Initial range: -0.07337511 0.3770198 
+Final range: -0.07337511 0.21 
+Capping glacier region_15 pdf estimate at 0.21  cm
+Plot pdfs with simulation histograms
+Range of data: -0.016721107 - 0.345802431 
+
+ SSPNDC 
+Capping glacier region_15 emulator prediction at 0.21  cm
+Initial range: 0.126231 0.2383748 
+Final range: 0.126231 0.21 
+Capping glacier region_15 sample prediction at 0.21  cm
+Initial range: -0.04850346 0.3844799 
+Final range: -0.04850346 0.21 
+Capping glacier region_15 pdf estimate at 0.21  cm
+
+ SSP370 
+Capping glacier region_15 emulator prediction at 0.21  cm
+Initial range: 0.1332506 0.268271 
+Final range: 0.1332506 0.21 
+Capping glacier region_15 sample prediction at 0.21  cm
+Initial range: -0.02457911 0.3790689 
+Final range: -0.02457911 0.21 
+Capping glacier region_15 pdf estimate at 0.21  cm
+
+ SSP585 
+Capping glacier region_15 emulator prediction at 0.21  cm
+Initial range: 0.141381 0.3035323 
+Final range: 0.141381 0.21 
+Capping glacier region_15 sample prediction at 0.21  cm
+Initial range: -0.05129137 0.393388 
+Final range: -0.05129137 0.21 
+Capping glacier region_15 pdf estimate at 0.21  cm
+Plot pdfs with simulation histograms
+Range of data: 0.025266484 - 0.382997996 
+
+______________________________________
+Region: Low Latitudes 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 0.1 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.988216 1.341921 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.988216 
+Scale factors for each input: 1.341921 
+
+Scaled: Mean and s.d. of temp: -7.996905e-17 1 
+
+ SSP119 
+Capping glacier region_16 sample prediction at 0.02  cm
+Initial range: -0.01027651 0.03877667 
+Final range: -0.01027651 0.02 
+Capping glacier region_16 pdf estimate at 0.02  cm
+
+ SSP126 
+Capping glacier region_16 sample prediction at 0.02  cm
+Initial range: -0.01324296 0.03888168 
+Final range: -0.01324296 0.02 
+Capping glacier region_16 pdf estimate at 0.02  cm
+Plot pdfs with simulation histograms
+Range of data: -0.00052015 - 0.02709159 
+
+ SSP245 
+Capping glacier region_16 sample prediction at 0.02  cm
+Initial range: -0.009424895 0.03996451 
+Final range: -0.009424895 0.02 
+Capping glacier region_16 pdf estimate at 0.02  cm
+Plot pdfs with simulation histograms
+Range of data: 7.04e-05 - 0.028100994 
+
+ SSPNDC 
+Capping glacier region_16 emulator prediction at 0.02  cm
+Initial range: 0.01500198 0.02284278 
+Final range: 0.01500198 0.02 
+Capping glacier region_16 sample prediction at 0.02  cm
+Initial range: -0.01268904 0.04539682 
+Final range: -0.01268904 0.02 
+Capping glacier region_16 pdf estimate at 0.02  cm
+
+ SSP370 
+Capping glacier region_16 emulator prediction at 0.02  cm
+Initial range: 0.01563822 0.02499773 
+Final range: 0.01563822 0.02 
+Capping glacier region_16 sample prediction at 0.02  cm
+Initial range: -0.008040328 0.04365681 
+Final range: -0.008040328 0.02 
+Capping glacier region_16 pdf estimate at 0.02  cm
+
+ SSP585 
+Capping glacier region_16 emulator prediction at 0.02  cm
+Initial range: 0.01624967 0.02752072 
+Final range: 0.01624967 0.02 
+Capping glacier region_16 sample prediction at 0.02  cm
+Initial range: -0.004051464 0.04847521 
+Final range: -0.004051464 0.02 
+Capping glacier region_16 pdf estimate at 0.02  cm
+Plot pdfs with simulation histograms
+Range of data: 7.53e-05 - 0.029604218 
+
+______________________________________
+Region: Southern Andes 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: matern_5_2 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.988216 1.341921 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.988216 
+Scale factors for each input: 1.341921 
+
+Scaled: Mean and s.d. of temp: -7.996905e-17 1 
+
+ SSP119 
+Capping glacier region_17 pdf estimate at 1.28  cm
+
+ SSP126 
+Capping glacier region_17 pdf estimate at 1.28  cm
+Plot pdfs with simulation histograms
+Range of data: 0.02862069 - 1.033413557 
+
+ SSP245 
+Capping glacier region_17 sample prediction at 1.28  cm
+Initial range: -0.3422287 1.375379 
+Final range: -0.3422287 1.28 
+Capping glacier region_17 pdf estimate at 1.28  cm
+Plot pdfs with simulation histograms
+Range of data: 0.073084186 - 1.072234527 
+
+ SSPNDC 
+Capping glacier region_17 pdf estimate at 1.28  cm
+
+ SSP370 
+Capping glacier region_17 sample prediction at 1.28  cm
+Initial range: -0.3108078 1.379553 
+Final range: -0.3108078 1.28 
+Capping glacier region_17 pdf estimate at 1.28  cm
+
+ SSP585 
+Capping glacier region_17 sample prediction at 1.28  cm
+Initial range: -0.1631535 1.399415 
+Final range: -0.1631535 1.28 
+Capping glacier region_17 pdf estimate at 1.28  cm
+Plot pdfs with simulation histograms
+Range of data: 0.204520743 - 1.170441339 
+
+______________________________________
+Region: New Zealand 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: pow_exp 
+alpha = 0.1 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 1.987265 1.346124 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 1.987265 
+Scale factors for each input: 1.346124 
+
+Scaled: Mean and s.d. of temp: -1.001899e-16 1 
+
+ SSP119 
+Capping glacier region_18 pdf estimate at 0.02  cm
+
+ SSP126 
+Capping glacier region_18 pdf estimate at 0.02  cm
+Plot pdfs with simulation histograms
+Range of data: -0.005999863 - 0.012899311 
+
+ SSP245 
+Capping glacier region_18 sample prediction at 0.02  cm
+Initial range: -0.003320842 0.02210334 
+Final range: -0.003320842 0.02 
+Capping glacier region_18 pdf estimate at 0.02  cm
+Plot pdfs with simulation histograms
+Range of data: -0.003370814 - 0.013801931 
+
+ SSPNDC 
+Capping glacier region_18 sample prediction at 0.02  cm
+Initial range: -0.001876534 0.02391325 
+Final range: -0.001876534 0.02 
+Capping glacier region_18 pdf estimate at 0.02  cm
+
+ SSP370 
+Capping glacier region_18 sample prediction at 0.02  cm
+Initial range: -0.00355112 0.02383326 
+Final range: -0.00355112 0.02 
+Capping glacier region_18 pdf estimate at 0.02  cm
+
+ SSP585 
+Capping glacier region_18 sample prediction at 0.02  cm
+Initial range: -0.002126968 0.02846147 
+Final range: -0.002126968 0.02 
+Capping glacier region_18 pdf estimate at 0.02  cm
+Plot pdfs with simulation histograms
+Range of data: -0.000645876 - 0.017153104 
+
+______________________________________
+Region: Antarctic and Subantarctic periphery 2100 
+______________________________________
+
+Mean function: ~ temp 
+Covariance function: matern_5_2 
+
+Inputs: temp 
+
+Unscaled: Mean and s.d. of temp: 2.080935 1.393839 
+
+Centre and scale inputs (so mean = 0, s.d. = 1)
+Centre factors for each input: 2.080935 
+Scale factors for each input: 1.393839 
+
+Scaled: Mean and s.d. of temp: -4.782427e-17 1 
+
+ SSP119 
+Capping glacier region_19 pdf estimate at 6.94  cm
+
+ SSP126 
+Capping glacier region_19 pdf estimate at 6.94  cm
+Plot pdfs with simulation histograms
+Range of data: -0.332991379 - 3.244231681 
+
+ SSP245 
+Capping glacier region_19 pdf estimate at 6.94  cm
+Plot pdfs with simulation histograms
+Range of data: 0.324719828 - 4.031533405 
+
+ SSPNDC 
+Capping glacier region_19 pdf estimate at 6.94  cm
+
+ SSP370 
+Capping glacier region_19 pdf estimate at 6.94  cm
+
+ SSP585 
+Capping glacier region_19 pdf estimate at 6.94  cm
+Plot pdfs with simulation histograms
+Range of data: -0.231108836 - 5.350028017 
+
+______________________________________
+
+TABLE 1: 2100 
+
+______________________________________
+
+ LAND_ICE 
+SSP119	30 [12, 56]	[20, 43]
+SSP126	33 [15, 58]	[22, 45]
+SSP245	38 [20, 63]	[28, 50]
+SSPNDC	42 [25, 67]	[32, 54]
+SSP370	44 [27, 70]	[34, 56]
+SSP585	48 [30, 75]	[38, 61]
+
+ GrIS 
+SSP119	2 [-6, 12]	[-2, 7]
+SSP126	3 [-4, 12]	[-1, 8]
+SSP245	5 [-2, 15]	[1, 10]
+SSPNDC	7 [-0, 17]	[3, 12]
+SSP370	8 [1, 17]	[4, 13]
+SSP585	10 [2, 20]	[5, 15]
+
+ AIS 
+SSP119	21 [6, 42]	[12, 32]
+SSP126	21 [7, 43]	[12, 31]
+SSP245	21 [7, 43]	[12, 31]
+SSPNDC	21 [7, 43]	[13, 31]
+SSP370	21 [8, 43]	[13, 31]
+SSP585	22 [8, 43]	[14, 32]
+
+ Glaciers 
+SSP119	7 [4, 11]	[5, 9]
+SSP126	8 [5, 12]	[6, 10]
+SSP245	11 [7, 15]	[9, 13]
+SSPNDC	13 [9, 18]	[11, 16]
+SSP370	14 [10, 19]	[12, 17]
+SSP585	16 [12, 21]	[14, 19]
