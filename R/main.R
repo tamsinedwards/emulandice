@@ -22,6 +22,8 @@ main <- function(expt = "default",
                  years = 2100,
                  dataset = "main",
                  N_temp = 1000L,
+                 N_FACTS =  2237L,
+                 outdir = "results",
                  temp_prior = "FAIR",
                  fair_ssps = NA,
                  mean_temp = FALSE,
@@ -88,8 +90,7 @@ main <- function(expt = "default",
 
   # Number of IPCC runs for each SSP
   N_IPCC <- 2237L # v.0.1.0 i.e. 20210215_CLIMATE_FORCING_IPCC.csv (was 2000 in v.0.0.0)
-  N_FACTS <- 2237L # v.0.1.0 i.e. 20210215_CLIMATE_FORCING_IPCC.csv (was 2000 in v.0.0.0)
-
+ 
   # Number of T/melt samples in 2100 projections and SA
   # If equal to number of FAIR projections, uses each one, otherwise samples
   # 501 for testing, 1000 for SA tests, ~2000 for FAIR 2LM IPCC, 5000 for FAIR main projections
@@ -349,7 +350,7 @@ main <- function(expt = "default",
   # output files --------------------------------------
 
   # OUTPUT DIR
-  e$outdir <- "results"
+  e$outdir <- outdir
 
   # OUTPUT TEXT FILE
   e$log_file <- file( paste0(e$outdir,"/output.txt"), "w" )
@@ -427,7 +428,7 @@ main <- function(expt = "default",
   # output files --------------------------------------
 
   # OUTPUT DIR
-  e$outdir <- "results"
+  e$outdir <- outdir
 
   # OUTPUT TEXT FILE
   e$log_file <- file( paste0(e$outdir,"/output.txt"), "w" )
