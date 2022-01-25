@@ -24,7 +24,7 @@ read_forcing(
 
 \item{mean_temp}{Whether to use mean of GSAT prior instead of sampling}
 
-\item{dataset}{Which forcing CSV file to read: 2019, main, IPCC}
+\item{dataset}{Which forcing CSV file to read: 2019, main, IPCC, FACTS}
 }
 \description{
 Read forcing data from CSV

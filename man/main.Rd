@@ -10,6 +10,8 @@ main(
   years = 2100,
   dataset = "main",
   N_temp = 1000L,
+  N_FACTS = 2237L,
+  outdir = "results",
   temp_prior = "FAIR",
   fair_ssps = NA,
   mean_temp = FALSE,
@@ -35,9 +37,13 @@ main(
 
 \item{years}{Year(s) to predict: default is 2100, time series is 2015:2100}
 
-\item{dataset}{Forcing dataset: 2019, main, IPCC}
+\item{dataset}{Forcing dataset: 2019, main, IPCC, FACTS}
 
 \item{N_temp}{Number of climate values in prior: 501 code testing, 1000L default for tests, 5000L projections, over-ridden for timeseries}
+
+\item{N_FACTS}{Number of  FAIR time series samples in forcing file passed by FACTS}
+
+\item{outdir}{output directory}
 
 \item{temp_prior}{Climate ensemble for prior: FAIR, CMIP6}
 
