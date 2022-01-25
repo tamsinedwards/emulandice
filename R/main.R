@@ -13,7 +13,7 @@ print(' ', quote = FALSE)
 print('Can ignore the warnings from optimize')
 print('____________________________________________________')
 
-# No arguments: runs default 2100
+# No arguments: runs defaultx 2100
 # Change expt: will alter arg(s)
 # Change args: less well tested...
 # N_temp = default for tests etc; use 5000 for projections at 2100
@@ -39,7 +39,8 @@ main <- function(expt = "default",
                  impute_high = FALSE,
                  do_model_comp = FALSE,
                  do_covar_fn = NA,
-                 do_covar_alpha = NA) {
+                 do_covar_alpha = NA,
+                 packagename = "emulandice") {
 
   #' Main analysis steering function
   #' @param expt Analysis to run: e.g. "SA", "timeseries"
@@ -65,6 +66,7 @@ main <- function(expt = "default",
   #' @param do_model_comp Run stepwise model comparison: T/F
   #' @param do_covar_fn Set fixed covariance function for all regions: matern_5_2, matern_3_2, pow_exp
   #' @param do_covar_alpha Set fixed pow_exp exponent for all regions: 0.1, 1.0, 1.9
+  #' @param packagename Set package name
 
   # EXPERIMENT OPTIONS: each changes one of the other options
   stopifnot(expt %in% c("default", "timeseries", # --> projections for timeslice or full time series
@@ -74,6 +76,8 @@ main <- function(expt = "default",
                         "fixed_melt", "fixed_T")) # -> priors
 
   # options --------------------------------------
+
+  e$packagename <- packagename
 
   # Ice sources: default is to predict for all land ice
   e$ice_source_list <- ice_sources
@@ -408,7 +412,7 @@ main <- function(expt = "default",
   e$region_name_list <- list()
   e$region_name_list[["GrIS"]] <- "Greenland"
   e$region_name_list[["AIS"]] <- c("West Antarctica", "East Antarctica", "Antarctic Peninsula")
-  regionnames.file <- system.file("extdata", "regionnames.txt", package = "emulandice", mustWork = TRUE)
+  regionnames.file <- system.file("extdata", "regionnames.txt", package = e$packagename, mustWork = TRUE)
   e$region_name_list[["Glaciers"]] <- as.character(unlist(read.csv(regionnames.file, header = FALSE)))
 
   # Add 'peripherals' for ice sheet glaciers to avoid ambiguity
