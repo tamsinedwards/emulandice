@@ -892,8 +892,8 @@ read_melt <- function(gamma0_prior) {
   # gamma0 distributions from Nico Jourdain (N = 10000 each)
   # Sample from smoothed kernel density estimate of combined distribution (or individual distributions for SA)
   # Truncate at zero i.e. remove these samples
-  gamma0_MeanAnt.file <- system.file("extdata", "output_gamma0_NonLocal_MeanAnt.dat", package = "emulatelandice", mustWork = TRUE )
-  gamma0_PIGL.file <- system.file("extdata", "output_gamma0_NonLocal_PIGL.dat", package = "emulatelandice", mustWork = TRUE )
+  gamma0_MeanAnt.file <- system.file("extdata", "output_gamma0_NonLocal_MeanAnt.dat", package = "emulandice", mustWork = TRUE )
+  gamma0_PIGL.file <- system.file("extdata", "output_gamma0_NonLocal_PIGL.dat", package = "emulandice", mustWork = TRUE )
 
   gamma0_MeanAnt <- read.table(gamma0_MeanAnt.file)
   gamma0_PIGL <- read.table(gamma0_PIGL.file)

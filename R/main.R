@@ -402,7 +402,7 @@ main <- function(expt = "default",
   e$region_name_list <- list()
   e$region_name_list[["GrIS"]] <- "Greenland"
   e$region_name_list[["AIS"]] <- c("West Antarctica", "East Antarctica", "Antarctic Peninsula")
-  regionnames.file <- system.file("extdata", "regionnames.txt", package = "emulatelandice", mustWork = TRUE)
+  regionnames.file <- system.file("extdata", "regionnames.txt", package = "emulandice", mustWork = TRUE)
   e$region_name_list[["Glaciers"]] <- as.character(unlist(read.csv(regionnames.file, header = FALSE)))
 
   # Add 'peripherals' for ice sheet glaciers to avoid ambiguity
