@@ -47,6 +47,8 @@ main <- function(expt = "default",
   #' @param years Year(s) to predict: default is 2100, time series is 2015:2100
   #' @param dataset Forcing dataset: 2019, main, IPCC, FACTS
   #' @param N_temp Number of climate values in prior: 501 code testing, 1000L default for tests, 5000L projections, over-ridden for timeseries
+  #' @param N_FACTS Number of  FAIR time series samples in forcing file passed by FACTS
+  #' @param outdir output directory
   #' @param temp_prior Climate ensemble for prior: FAIR, CMIP6
   #' @param fair_ssps Restrict FAIR SSPs run: NA; or e.g. c("SSP126", "SSP585"); must be set for IPCC timeseries runs
   #' @param mean_temp Use mean temperature value or ice sheets: T/F
