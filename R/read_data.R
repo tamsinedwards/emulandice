@@ -17,7 +17,7 @@ read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, m
   #' @param N_temp Number of GSAT samples wanted
   #' @param climate_prior_kde Whether to smooth prior before sampling
   #' @param mean_temp Whether to use mean of GSAT prior instead of sampling
-  #' @param dataset Which forcing CSV file to read: 2019, main, IPCC
+  #' @param dataset Which forcing CSV file to read: 2019, main, IPCC, FACTS
   #' @param temp_prior Which ensemble
 
   cat("\nread_forcing --------------------------------------\n", file = e$log_file)
@@ -28,6 +28,7 @@ read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, m
   if (dataset == "2019") forcing.filename <- "20191217_CLIMATE_FORCING.csv"
   if (dataset == "main") forcing.filename <- "20201105_CLIMATE_FORCING.csv"
   if (dataset == "IPCC") forcing.filename <- "20210215_CLIMATE_FORCING_IPCC.csv"
+  if (dataset == "FACTS") forcing.filename <- "FACTS_CLIMATE_FORCING.csv"
 
   # Number of initial columns before numeric data columns
   ncol_param <- 3
@@ -892,8 +893,8 @@ read_melt <- function(gamma0_prior) {
   # gamma0 distributions from Nico Jourdain (N = 10000 each)
   # Sample from smoothed kernel density estimate of combined distribution (or individual distributions for SA)
   # Truncate at zero i.e. remove these samples
-  gamma0_MeanAnt.file <- system.file("extdata", "output_gamma0_NonLocal_MeanAnt.dat", package = "emulatelandice", mustWork = TRUE )
-  gamma0_PIGL.file <- system.file("extdata", "output_gamma0_NonLocal_PIGL.dat", package = "emulatelandice", mustWork = TRUE )
+  gamma0_MeanAnt.file <- system.file("extdata", "output_gamma0_NonLocal_MeanAnt.dat", package = "emulandice", mustWork = TRUE )
+  gamma0_PIGL.file <- system.file("extdata", "output_gamma0_NonLocal_PIGL.dat", package = "emulandice", mustWork = TRUE )
 
   gamma0_MeanAnt <- read.table(gamma0_MeanAnt.file)
   gamma0_PIGL <- read.table(gamma0_PIGL.file)
