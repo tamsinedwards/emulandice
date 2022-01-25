@@ -43,7 +43,7 @@ main <- function(expt = "default",
   #' @param expt Analysis to run: e.g. "SA", "timeseries"
   #' @param ice_sources Ice sources: GrIS, AIS, Glaciers
   #' @param years Year(s) to predict: default is 2100, time series is 2015:2100
-  #' @param dataset Forcing dataset: 2019, main, IPCC
+  #' @param dataset Forcing dataset: 2019, main, IPCC, FACTS
   #' @param N_temp Number of climate values in prior: 501 code testing, 1000L default for tests, 5000L projections, over-ridden for timeseries
   #' @param temp_prior Climate ensemble for prior: FAIR, CMIP6
   #' @param fair_ssps Restrict FAIR SSPs run: NA; or e.g. c("SSP126", "SSP585"); must be set for IPCC timeseries runs
@@ -88,11 +88,12 @@ main <- function(expt = "default",
 
   # Number of IPCC runs for each SSP
   N_IPCC <- 2237L # v.0.1.0 i.e. 20210215_CLIMATE_FORCING_IPCC.csv (was 2000 in v.0.0.0)
+  N_FACTS <- 2237L # v.0.1.0 i.e. 20210215_CLIMATE_FORCING_IPCC.csv (was 2000 in v.0.0.0)
 
   # Number of T/melt samples in 2100 projections and SA
   # If equal to number of FAIR projections, uses each one, otherwise samples
   # 501 for testing, 1000 for SA tests, ~2000 for FAIR 2LM IPCC, 5000 for FAIR main projections
-  stopifnot(N_temp %in% c(501L, 1000L, N_IPCC, 5000L, 10000L))
+  stopifnot(N_temp %in% c(501L, 1000L, N_IPCC, N_FACTS, 5000L, 10000L))
 
   # Collapse prior
   stopifnot(collapse_prior %in% c("both", "on", "off"))
@@ -232,10 +233,10 @@ main <- function(expt = "default",
   old_data <- FALSE # xxx improve: remove old_data capacity once code rewrite finished
 
   # FORCING csv: old, main or new 2LM forcing
-  stopifnot(dataset %in% c("2019", "main", "IPCC"))
+  stopifnot(dataset %in% c("2019", "main", "IPCC", "FACTS"))
 
   # This is used to override N_temp for timeseries runs, so that each is a trajectory
-  N_FAIR <- ifelse(dataset == "IPCC", N_IPCC, 500L)
+  N_FAIR <- ifelse(dataset == "FACTS", N_FACTS, ifelse(dataset == "IPCC", N_IPCC, 500L))
 
   # End of anything changed by hand
   #__________________________________________________________________________________________________
@@ -307,6 +308,7 @@ main <- function(expt = "default",
   if (dataset == "2019") scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSP370", "SSP585")
   if (dataset == "main") scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSPNDC", "SSP370", "SSP585")
   if (dataset == "IPCC") scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSP370", "SSP585")
+  if (dataset == "FACTS") scenario_list[["FAIR"]] <- c("FACTS")
 
   # Do not allow running all SSPs: too slow
   if (dataset == "IPCC" && expt == "timeseries") {
@@ -333,6 +335,7 @@ main <- function(expt = "default",
   if (dataset == "2019") e$scen_name_list[["FAIR"]] <- c("SSP1-19", "SSP1-26", "SSP2-45", "SSP3-70", "SSP5-85")
   if (dataset == "main") e$scen_name_list[["FAIR"]] <- c("SSP1-19", "SSP1-26", "SSP2-45", "NDCs", "SSP3-70", "SSP5-85")
   if (dataset == "IPCC") e$scen_name_list[["FAIR"]] <- c("SSP1-19", "SSP1-26", "SSP2-45", "SSP3-70", "SSP5-85")
+  if (dataset == "FACTS") e$scen_name_list[["FAIR"]] <- c("FACTS")
 
   # Get subset of names if selecting SSPs
   if ( !is.na(fair_ssps[1]) ) {
