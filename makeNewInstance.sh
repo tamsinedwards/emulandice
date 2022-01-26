@@ -19,11 +19,11 @@ cat $MAINDIR/template/DESCRIPTION.foot >> $INSTANCEDIR/DESCRIPTION
 
 echo "#!/bin/bash
 
-cd ..
-R CMD INSTALL --no-multiarch --with-keep.source $INSTANCENAME
-cd $INSTANCENAME
-Rscript steer/steer.R
-R CMD REMOVE $INSTANCENAME" > $INSTANCEDIR/run.sh
+    Rscript -e \"install.packages('devtools',repos='https://cloud.r-project.org')\"
+    Rscript -e \"devtools::install_deps('.')\"
+    R CMD INSTALL --no-multiarch --with-keep.source .
+    Rscript steer/steer.R
+    R CMD REMOVE $INSTANCENAME" > $INSTANCEDIR/run.sh
 
 echo "library($INSTANCENAME)
 main(packagename=\"$INSTANCENAME\", dataset=\"FACTS\",N_temp=501L, outdir=\"$RESULTSDIR\") # do only 501 samples for year 2100
