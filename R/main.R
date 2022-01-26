@@ -43,15 +43,15 @@ main <- function(expt = "default",
                  packagename = "emulandice") {
 
   #' Main analysis steering function
-  #' @param expt Analysis to run: e.g. "SA", "timeseries"
+  #' @param expt Analysis to run: e.g. "SA", "timeseries", "decades"
   #' @param ice_sources Ice sources: GrIS, AIS, Glaciers
   #' @param years Year(s) to predict: default is 2100, time series is 2015:2100
   #' @param dataset Forcing dataset: 2019, main, IPCC, FACTS
-  #' @param N_temp Number of climate values in prior: 501 code testing, 1000L default for tests, 5000L projections, over-ridden for timeseries
+  #' @param N_temp Number of climate values in prior: 501 code testing, 1000L default for tests, 5000L projections, over-ridden for timeseries or decades
   #' @param N_FACTS Number of  FAIR time series samples in forcing file passed by FACTS
   #' @param outdir output directory
   #' @param temp_prior Climate ensemble for prior: FAIR, CMIP6
-  #' @param fair_ssps Restrict FAIR SSPs run: NA; or e.g. c("SSP126", "SSP585"); must be set for IPCC timeseries runs
+  #' @param fair_ssps Restrict FAIR SSPs run: NA; or e.g. c("SSP126", "SSP585"); must be set for IPCC timeseries or decades runs
   #' @param mean_temp Use mean temperature value or ice sheets: T/F
   #' @param gamma0_prior Gamma0 prior distribution for AIS: "joint", "MeanAnt", "PIGL", "unif", "unif_high"
   #' @param mean_melt Use mean kappa/gamma0 value for ice sheets: T/F
@@ -69,7 +69,7 @@ main <- function(expt = "default",
   #' @param packagename Set package name
 
   # EXPERIMENT OPTIONS: each changes one of the other options
-  stopifnot(expt %in% c("default", "timeseries", # --> projections for timeslice or full time series
+  stopifnot(expt %in% c("default", "timeseries", "decades", # --> projections for timeslice or full time series
                         "sim_only", "SA", # --> plot simulations or param dep, NOT projections
                         "high_res", # ice sheet model selection
                         "CMIP6", "gamma0_MeanAnt", "gamma0_PIGL", "gamma0_unif", "gamma0_unif_high",
@@ -124,6 +124,7 @@ main <- function(expt = "default",
   # YEARS TO PREDICT i.e. output to CSV files
   e$years_pred <- years # some years added later: e$years_data
   if (expt == "timeseries") e$years_pred <- 2016:2100
+  if (expt == "decades") e$years_pred <- seq(from=2020, to=2100, by=10)
   stopifnot( min(e$years_pred) >= 2016 && max(e$years_pred) <= 2100 )
 
   # PARAMETER SAMPLING
@@ -291,6 +292,7 @@ main <- function(expt = "default",
 
   # N_temp = N_FAIR for timeseries projections, otherwise use N_temp
   if (temp_prior == "FAIR" && expt == "timeseries") N_temp <- N_FAIR
+  if (temp_prior == "FAIR" && expt == "decades") N_temp <- N_FAIR
 
   # Number of melt samples per temperature
   if (expt == "SA") N_melt_Tdep <- N_temp # T-dep plots

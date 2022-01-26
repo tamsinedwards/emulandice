@@ -26,8 +26,8 @@ echo "#!/bin/bash
     R CMD REMOVE $INSTANCENAME" > $INSTANCEDIR/run.sh
 
 echo "library($INSTANCENAME)
-main(packagename=\"$INSTANCENAME\", dataset=\"FACTS\",N_temp=501L, outdir=\"$RESULTSDIR\") # do only 501 samples for year 2100
-#main(packagename=\"$INSTANCENAME\", \"timeseries\", dataset=\"FACTS\", outdir=\"$RESULTSDIR\")" > $INSTANCEDIR/steer/steer.R
+#main(packagename=\"$INSTANCENAME\", dataset=\"FACTS\",N_temp=501L, outdir=\"$RESULTSDIR\") # do only 501 samples for year 2100
+main(packagename=\"$INSTANCENAME\", \"decades\", dataset=\"FACTS\", outdir=\"$RESULTSDIR\")" > $INSTANCEDIR/steer/steer.R
 
 cat $MAINDIR/template/FACTS_CLIMATE_FORCING.csv.head > $INSTANCEDIR/inst/extdata/FACTS_CLIMATE_FORCING.csv
 cat $MAINDIR/template/FACTS_CLIMATE_FORCING.csv.example >> $INSTANCEDIR/inst/extdata/FACTS_CLIMATE_FORCING.csv
