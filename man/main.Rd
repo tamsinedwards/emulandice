@@ -27,7 +27,8 @@ main(
   impute_high = FALSE,
   do_model_comp = FALSE,
   do_covar_fn = NA,
-  do_covar_alpha = NA
+  do_covar_alpha = NA,
+  packagename = "emulandice"
 )
 }
 \arguments{
@@ -76,6 +77,8 @@ main(
 \item{do_covar_fn}{Set fixed covariance function for all regions: matern_5_2, matern_3_2, pow_exp}
 
 \item{do_covar_alpha}{Set fixed pow_exp exponent for all regions: 0.1, 1.0, 1.9}
+
+\item{packagename}{Set package name}
 }
 \description{
 Main analysis steering function
