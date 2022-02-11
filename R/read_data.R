@@ -17,7 +17,7 @@ read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, m
   #' @param N_temp Number of GSAT samples wanted
   #' @param climate_prior_kde Whether to smooth prior before sampling
   #' @param mean_temp Whether to use mean of GSAT prior instead of sampling
-  #' @param dataset Which forcing CSV file to read: 2019, main, IPCC
+  #' @param dataset Which forcing CSV file to read: 2019, main, IPCC, FACTS
   #' @param temp_prior Which ensemble
 
   cat("\nread_forcing --------------------------------------\n", file = e$log_file)
@@ -28,6 +28,7 @@ read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, m
   if (dataset == "2019") forcing.filename <- "20191217_CLIMATE_FORCING.csv"
   if (dataset == "main") forcing.filename <- "20201105_CLIMATE_FORCING.csv"
   if (dataset == "IPCC") forcing.filename <- "20210215_CLIMATE_FORCING_IPCC.csv"
+  if (dataset == "FACTS") forcing.filename <- "FACTS_CLIMATE_FORCING.csv"
 
   # Number of initial columns before numeric data columns
   ncol_param <- 3
@@ -35,7 +36,7 @@ read_forcing <- function(scenario_list, temp_prior, N_temp, climate_prior_kde, m
   cat("\nread_forcing: READ", forcing.filename, "\n\n", file = e$log_file)
 
   # READ CSV
-  forcing.file <- system.file( "extdata", forcing.filename, package = "emulandice", mustWork = TRUE )
+  forcing.file <- system.file( "extdata", forcing.filename, package = e$packagename, mustWork = TRUE )
 
   # tidyverse readr package: better defaults than read.csv; creates a tibble
   fd <- suppressMessages(read_csv( forcing.file ))
@@ -335,7 +336,7 @@ read_sealevel <- function(min_res, old_data, sle.filename) {
   cat("\nread_sealevel: READ", sle.filename, "\n\n", file = e$log_file)
 
   # READ CSV from package inst/extdata/ folder
-  sle.file <- system.file( "extdata", sle.filename, package = "emulandice", mustWork = TRUE )
+  sle.file <- system.file( "extdata", sle.filename, package = e$packagename, mustWork = TRUE )
   fd <- suppressMessages(read_csv( sle.file ))
 
   # Add y to start of column names if old dataset
@@ -882,7 +883,7 @@ read_melt <- function(gamma0_prior) {
   # GREENLAND
   # K-distribution from Donald Slater (N = 191)
   # Sample from kernel density estimate of this
-  k_dist.file <- system.file("extdata", "data_for_tamsin.txt", package = "emulandice", mustWork = TRUE )
+  k_dist.file <- system.file("extdata", "data_for_tamsin.txt", package = e$packagename, mustWork = TRUE )
   k_dist <- read.table(k_dist.file)
   e$melt_prior_dens[["GrIS"]] <- density(k_dist[,1], n = 10000, bw = 0.0703652) # Auto is 0.07262901
   e$melt_prior[["GrIS"]] <- sample(e$melt_prior_dens[["GrIS"]]$x, 10000, replace = TRUE,
@@ -892,8 +893,8 @@ read_melt <- function(gamma0_prior) {
   # gamma0 distributions from Nico Jourdain (N = 10000 each)
   # Sample from smoothed kernel density estimate of combined distribution (or individual distributions for SA)
   # Truncate at zero i.e. remove these samples
-  gamma0_MeanAnt.file <- system.file("extdata", "output_gamma0_NonLocal_MeanAnt.dat", package = "emulatelandice", mustWork = TRUE )
-  gamma0_PIGL.file <- system.file("extdata", "output_gamma0_NonLocal_PIGL.dat", package = "emulatelandice", mustWork = TRUE )
+  gamma0_MeanAnt.file <- system.file("extdata", "output_gamma0_NonLocal_MeanAnt.dat", package = e$packagename, mustWork = TRUE )
+  gamma0_PIGL.file <- system.file("extdata", "output_gamma0_NonLocal_PIGL.dat", package = e$packagename, mustWork = TRUE )
 
   gamma0_MeanAnt <- read.table(gamma0_MeanAnt.file)
   gamma0_PIGL <- read.table(gamma0_PIGL.file)

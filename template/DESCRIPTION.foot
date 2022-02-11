@@ -1,4 +1,3 @@
-Package: emulandice
 Type: Package
 Title: Analysis code for Edwards et al. (2021), "Projected land ice contributions to twenty-first-century sea level rise", Nature.
 Version: 1.0.0

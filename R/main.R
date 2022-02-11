@@ -13,7 +13,7 @@ print(' ', quote = FALSE)
 print('Can ignore the warnings from optimize')
 print('____________________________________________________')
 
-# No arguments: runs default 2100
+# No arguments: runs defaultx 2100
 # Change expt: will alter arg(s)
 # Change args: less well tested...
 # N_temp = default for tests etc; use 5000 for projections at 2100
@@ -22,6 +22,8 @@ main <- function(expt = "default",
                  years = 2100,
                  dataset = "main",
                  N_temp = 1000L,
+                 N_FACTS =  2237L,
+                 outdir = "results",
                  temp_prior = "FAIR",
                  fair_ssps = NA,
                  mean_temp = FALSE,
@@ -37,16 +39,19 @@ main <- function(expt = "default",
                  impute_high = FALSE,
                  do_model_comp = FALSE,
                  do_covar_fn = NA,
-                 do_covar_alpha = NA) {
+                 do_covar_alpha = NA,
+                 packagename = "emulandice") {
 
   #' Main analysis steering function
-  #' @param expt Analysis to run: e.g. "SA", "timeseries"
+  #' @param expt Analysis to run: e.g. "SA", "timeseries", "decades"
   #' @param ice_sources Ice sources: GrIS, AIS, Glaciers
   #' @param years Year(s) to predict: default is 2100, time series is 2015:2100
-  #' @param dataset Forcing dataset: 2019, main, IPCC
-  #' @param N_temp Number of climate values in prior: 501 code testing, 1000L default for tests, 5000L projections, over-ridden for timeseries
+  #' @param dataset Forcing dataset: 2019, main, IPCC, FACTS
+  #' @param N_temp Number of climate values in prior: 501 code testing, 1000L default for tests, 5000L projections, over-ridden for timeseries or decades
+  #' @param N_FACTS Number of  FAIR time series samples in forcing file passed by FACTS
+  #' @param outdir output directory
   #' @param temp_prior Climate ensemble for prior: FAIR, CMIP6
-  #' @param fair_ssps Restrict FAIR SSPs run: NA; or e.g. c("SSP126", "SSP585"); must be set for IPCC timeseries runs
+  #' @param fair_ssps Restrict FAIR SSPs run: NA; or e.g. c("SSP126", "SSP585"); must be set for IPCC timeseries or decades runs
   #' @param mean_temp Use mean temperature value or ice sheets: T/F
   #' @param gamma0_prior Gamma0 prior distribution for AIS: "joint", "MeanAnt", "PIGL", "unif", "unif_high"
   #' @param mean_melt Use mean kappa/gamma0 value for ice sheets: T/F
@@ -61,15 +66,18 @@ main <- function(expt = "default",
   #' @param do_model_comp Run stepwise model comparison: T/F
   #' @param do_covar_fn Set fixed covariance function for all regions: matern_5_2, matern_3_2, pow_exp
   #' @param do_covar_alpha Set fixed pow_exp exponent for all regions: 0.1, 1.0, 1.9
+  #' @param packagename Set package name
 
   # EXPERIMENT OPTIONS: each changes one of the other options
-  stopifnot(expt %in% c("default", "timeseries", # --> projections for timeslice or full time series
+  stopifnot(expt %in% c("default", "timeseries", "decades", # --> projections for timeslice or full time series
                         "sim_only", "SA", # --> plot simulations or param dep, NOT projections
                         "high_res", # ice sheet model selection
                         "CMIP6", "gamma0_MeanAnt", "gamma0_PIGL", "gamma0_unif", "gamma0_unif_high",
                         "fixed_melt", "fixed_T")) # -> priors
 
   # options --------------------------------------
+
+  e$packagename <- packagename
 
   # Ice sources: default is to predict for all land ice
   e$ice_source_list <- ice_sources
@@ -88,11 +96,11 @@ main <- function(expt = "default",
 
   # Number of IPCC runs for each SSP
   N_IPCC <- 2237L # v.0.1.0 i.e. 20210215_CLIMATE_FORCING_IPCC.csv (was 2000 in v.0.0.0)
-
+ 
   # Number of T/melt samples in 2100 projections and SA
   # If equal to number of FAIR projections, uses each one, otherwise samples
   # 501 for testing, 1000 for SA tests, ~2000 for FAIR 2LM IPCC, 5000 for FAIR main projections
-  stopifnot(N_temp %in% c(501L, 1000L, N_IPCC, 5000L, 10000L))
+  stopifnot(N_temp %in% c(501L, 1000L, N_IPCC, N_FACTS, 5000L, 10000L))
 
   # Collapse prior
   stopifnot(collapse_prior %in% c("both", "on", "off"))
@@ -116,6 +124,7 @@ main <- function(expt = "default",
   # YEARS TO PREDICT i.e. output to CSV files
   e$years_pred <- years # some years added later: e$years_data
   if (expt == "timeseries") e$years_pred <- 2016:2100
+  if (expt == "decades") e$years_pred <- seq(from=2020, to=2100, by=10)
   stopifnot( min(e$years_pred) >= 2016 && max(e$years_pred) <= 2100 )
 
   # PARAMETER SAMPLING
@@ -232,10 +241,10 @@ main <- function(expt = "default",
   old_data <- FALSE # xxx improve: remove old_data capacity once code rewrite finished
 
   # FORCING csv: old, main or new 2LM forcing
-  stopifnot(dataset %in% c("2019", "main", "IPCC"))
+  stopifnot(dataset %in% c("2019", "main", "IPCC", "FACTS"))
 
   # This is used to override N_temp for timeseries runs, so that each is a trajectory
-  N_FAIR <- ifelse(dataset == "IPCC", N_IPCC, 500L)
+  N_FAIR <- ifelse(dataset == "FACTS", N_FACTS, ifelse(dataset == "IPCC", N_IPCC, 500L))
 
   # End of anything changed by hand
   #__________________________________________________________________________________________________
@@ -283,6 +292,7 @@ main <- function(expt = "default",
 
   # N_temp = N_FAIR for timeseries projections, otherwise use N_temp
   if (temp_prior == "FAIR" && expt == "timeseries") N_temp <- N_FAIR
+  if (temp_prior == "FAIR" && expt == "decades") N_temp <- N_FAIR
 
   # Number of melt samples per temperature
   if (expt == "SA") N_melt_Tdep <- N_temp # T-dep plots
@@ -307,6 +317,7 @@ main <- function(expt = "default",
   if (dataset == "2019") scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSP370", "SSP585")
   if (dataset == "main") scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSPNDC", "SSP370", "SSP585")
   if (dataset == "IPCC") scenario_list[["FAIR"]] <- c("SSP119", "SSP126", "SSP245", "SSP370", "SSP585")
+  if (dataset == "FACTS") scenario_list[["FAIR"]] <- c("FACTS")
 
   # Do not allow running all SSPs: too slow
   if (dataset == "IPCC" && expt == "timeseries") {
@@ -333,6 +344,7 @@ main <- function(expt = "default",
   if (dataset == "2019") e$scen_name_list[["FAIR"]] <- c("SSP1-19", "SSP1-26", "SSP2-45", "SSP3-70", "SSP5-85")
   if (dataset == "main") e$scen_name_list[["FAIR"]] <- c("SSP1-19", "SSP1-26", "SSP2-45", "NDCs", "SSP3-70", "SSP5-85")
   if (dataset == "IPCC") e$scen_name_list[["FAIR"]] <- c("SSP1-19", "SSP1-26", "SSP2-45", "SSP3-70", "SSP5-85")
+  if (dataset == "FACTS") e$scen_name_list[["FAIR"]] <- c("FACTS")
 
   # Get subset of names if selecting SSPs
   if ( !is.na(fair_ssps[1]) ) {
@@ -346,7 +358,7 @@ main <- function(expt = "default",
   # output files --------------------------------------
 
   # OUTPUT DIR
-  e$outdir <- "results"
+  e$outdir <- outdir
 
   # OUTPUT TEXT FILE
   e$log_file <- file( paste0(e$outdir,"/output.txt"), "w" )
@@ -402,7 +414,7 @@ main <- function(expt = "default",
   e$region_name_list <- list()
   e$region_name_list[["GrIS"]] <- "Greenland"
   e$region_name_list[["AIS"]] <- c("West Antarctica", "East Antarctica", "Antarctic Peninsula")
-  regionnames.file <- system.file("extdata", "regionnames.txt", package = "emulatelandice", mustWork = TRUE)
+  regionnames.file <- system.file("extdata", "regionnames.txt", package = e$packagename, mustWork = TRUE)
   e$region_name_list[["Glaciers"]] <- as.character(unlist(read.csv(regionnames.file, header = FALSE)))
 
   # Add 'peripherals' for ice sheet glaciers to avoid ambiguity
@@ -424,7 +436,7 @@ main <- function(expt = "default",
   # output files --------------------------------------
 
   # OUTPUT DIR
-  e$outdir <- "results"
+  e$outdir <- outdir
 
   # OUTPUT TEXT FILE
   e$log_file <- file( paste0(e$outdir,"/output.txt"), "w" )
